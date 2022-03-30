@@ -1,0 +1,121 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h4>Създайте нов акаунт.</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Създайте нов потребител</h4>
+                <div class="form-group">
+                    <label asp-for="Input.UserName"></label>
+                    <input asp-for="Input.UserName" class="form-control" />
+                    <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.FirstName"></label>
+                    <input asp-for="Input.FirstName" class="form-control" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.LastName"></label>
+                    <input asp-for="Input.LastName" class="form-control" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.BirthDate"></label>
+                    <input asp-for="Input.BirthDate" class="form-control" />
+                    <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.PhoneNumber"></label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Password"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h4>Създайте фирма</h4>
+                <div class="form-group">
+                    <label asp-for="Input.CompanyIdentificationNumber"></label>
+                    <input asp-for="Input.CompanyIdentificationNumber" class="form-control" />
+                    <span asp-validation-for="Input.CompanyIdentificationNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.CompanyName"></label>
+                    <input asp-for="Input.CompanyName" class="form-control" />
+                    <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.CompanyOwner"></label>
+                    <input asp-for="Input.CompanyOwner" class="form-control" />
+                    <span asp-validation-for="Input.CompanyOwner" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.CountryName"></label>
+                    <input asp-for="Input.CountryName" class="form-control" />
+                    <span asp-validation-for="Input.CountryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.CityName"></label>
+                    <input asp-for="Input.CityName" class="form-control" />
+                    <span asp-validation-for="Input.CityName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.StreetName"></label>
+                    <input asp-for="Input.StreetName" class="form-control" />
+                    <span asp-validation-for="Input.StreetName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.StreetNumber"></label>
+                    <input asp-for="Input.StreetNumber" class="form-control" />
+                    <span asp-validation-for="Input.StreetNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.BankName"></label>
+                    <input asp-for="Input.BankName" class="form-control" />
+                    <span asp-validation-for="Input.BankName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.BankAccount"></label>
+                    <input asp-for="Input.BankAccount" class="form-control" />
+                    <span asp-validation-for="Input.BankAccount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.BankCode"></label>
+                    <input asp-for="Input.BankCode" class="form-control" />
+                    <span asp-validation-for="Input.BankCode" class="text-danger"></span>
+                </div>
+
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Регистрация</button>
+        </div>
+
+    </form>
+</div>
+
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

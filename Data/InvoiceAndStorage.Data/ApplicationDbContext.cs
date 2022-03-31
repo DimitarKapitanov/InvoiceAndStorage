@@ -28,19 +28,13 @@
 
         public DbSet<Buyer> Buyers { get; set; }
 
-        public DbSet<City> Cities { get; set; }
-
         public DbSet<Company> Companies { get; set; }
-
-        public DbSet<Country> Countries { get; set; }
 
         public DbSet<DatabaseОwner> DatabaseОwners { get; set; }
 
         public DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<Product> Products { get; set; }
-
-        public DbSet<Street> Streets { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
 
@@ -93,8 +87,7 @@
 
             builder.Entity<Buyer>()
             .HasOne(a => a.DatabaseОwner)
-            .WithMany(a => a.Buyers)
-            .HasForeignKey(x => x.DatabaseОwnerId);
+            .WithMany(a => a.Buyers);
 
             builder.Entity<Company>()
             .HasOne(a => a.Buyer)

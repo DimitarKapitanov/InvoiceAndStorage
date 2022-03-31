@@ -17,25 +17,13 @@
 
         private readonly IDeletableEntityRepository<Adress> adressRepository;
 
-        private readonly IDeletableEntityRepository<Country> countryRepository;
-
-        private readonly IDeletableEntityRepository<City> cityRepository;
-
-        private readonly IDeletableEntityRepository<Street> streetRepository;
-
         public CompanyService(
             IDeletableEntityRepository<Company> companyRepository,
             IDeletableEntityRepository<Adress> adressRepository,
-            IDeletableEntityRepository<Country> countryRepository,
-            IDeletableEntityRepository<City> cityRepository,
-            IDeletableEntityRepository<Street> streetRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.companyRepository = companyRepository;
             this.adressRepository = adressRepository;
-            this.countryRepository = countryRepository;
-            this.cityRepository = cityRepository;
-            this.streetRepository = streetRepository;
             this.userRepository = userRepository;
         }
 
@@ -82,82 +70,16 @@
         {
             var adress = new Adress
             {
-                StreetId = await this.CreateStreet(streetName, streetNumber),
-                CityId = await this.CreateCity(cityName),
-                CountryId = await this.CreateCountry(countryName),
+                StreetName = streetName,
+                StreetNumber = streetNumber,
+                CityName = cityName,
+                CountryName = countryName,
             };
 
             await this.adressRepository.AddAsync(adress);
             await this.adressRepository.SaveChangesAsync();
 
             return adress.Id;
-        }
-
-        public async Task<string> CreateCountry(string countryName)
-        {
-            var county = this.countryRepository
-                .All()
-                .FirstOrDefault(x => x.CountryName == countryName);
-
-            if (county != null)
-            {
-                return county.Id;
-            }
-
-            county = new Country()
-            {
-                CountryName = countryName,
-            };
-
-            await this.countryRepository.AddAsync(county);
-            await this.countryRepository.AddAsync(county);
-
-            return county.Id;
-        }
-
-        public async Task<string> CreateCity(string cityName)
-        {
-            var city = this.cityRepository
-                .All()
-                .FirstOrDefault(x => x.CityName == cityName);
-
-            if (city != null)
-            {
-                return city.Id;
-            }
-
-            city = new City()
-            {
-                CityName = cityName,
-            };
-
-            await this.cityRepository.AddAsync(city);
-            await this.cityRepository.SaveChangesAsync();
-
-            return city.Id;
-        }
-
-        public async Task<string> CreateStreet(string streetName, int streetNumber)
-        {
-            var street = this.streetRepository
-                .All()
-                .FirstOrDefault(x => x.StreetName == streetName && x.StreetNumber == streetNumber);
-
-            if (street != null)
-            {
-                return street.Id;
-            }
-
-            street = new Street()
-            {
-                StreetName = streetName,
-                StreetNumber = streetNumber,
-            };
-
-            await this.streetRepository.AddAsync(street);
-            await this.streetRepository.SaveChangesAsync();
-
-            return street.Id;
         }
 
         public async Task<string> CreateCompany(AddBuyerViewModel model)

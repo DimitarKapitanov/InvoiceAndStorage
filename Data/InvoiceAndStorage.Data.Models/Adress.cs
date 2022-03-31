@@ -14,21 +14,19 @@
         }
 
         [Required]
-        [ForeignKey(nameof(Id))]
-        public string CountryId { get; set; }
-
-        public virtual Country Country { get; set; }
+        [MaxLength(100)]
+        public string StreetName { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Id))]
-        public string CityId { get; set; }
-
-        public virtual City City { get; set; }
+        [Range(1, int.MaxValue)]
+        public int StreetNumber { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Id))]
-        public string StreetId { get; set; }
+        [MaxLength(100)]
+        public string CityName { get; set; }
 
-        public virtual Street Street { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string CountryName { get; set; }
     }
 }

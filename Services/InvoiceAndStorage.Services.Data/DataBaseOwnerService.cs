@@ -39,15 +39,15 @@
             return databaseOwner.Id;
         }
 
-        public async Task AddUser(string id, string databaseOwnerId)
+        public async Task AddUser(ApplicationUser user, string databaseOwnerId)
         {
-            var repo = this.applicationUser.All().FirstOrDefault(x => x.Id == id);
+            var databaseOwner = this.dbRepository
+                .All()
+                .FirstOrDefault(d => d.ApplicationUsers
+                                    .FirstOrDefault(x => x.Id == user.Id)
+                                    .DatabaseОwnerId == databaseOwnerId);
 
-            var dbOwner = this.dbRepository.All().FirstOrDefault(d => d.Id == databaseOwnerId);
-
-            dbOwner.ApplicationUsers.Add(repo);
-
-            this.dbRepository.Update(dbOwner);
+            databaseOwner.ApplicationUsers.Add(user);
 
             await this.dbRepository.SaveChangesAsync();
         }
@@ -60,10 +60,13 @@
 
             var databaseOwner = new DatabaseОwner()
             {
-                CompanyId = companyId,
+                CompanyId = companyRepo.Id,
             };
 
+            companyRepo.DatabaseОwnerId = databaseOwner.Id;
+
             await this.dbRepository.AddAsync(databaseOwner);
+            this.companyRepository.Update(companyRepo);
             await this.dbRepository.SaveChangesAsync();
 
             return databaseOwner.Id;

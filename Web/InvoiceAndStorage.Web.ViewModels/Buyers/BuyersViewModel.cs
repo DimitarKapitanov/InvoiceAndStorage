@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace InvoiceAndStorage.Web.ViewModels.Buyers
+﻿namespace InvoiceAndStorage.Web.ViewModels.Buyers
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class BuyersViewModel
     {
         [Display(Name = "ЕИК")]

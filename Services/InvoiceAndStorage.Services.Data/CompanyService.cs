@@ -8,6 +8,7 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Buyers;
+    using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyServise
     {
@@ -113,6 +114,13 @@
             await this.companyRepository.SaveChangesAsync();
 
             return company.Id;
+        }
+
+        public async Task<Company> GetCompany(string companyId)
+        {
+            var company = await this.companyRepository.All().FirstOrDefaultAsync(x => x.Id == companyId);
+
+            return company;
         }
     }
 }

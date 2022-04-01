@@ -77,7 +77,7 @@
 
         public async Task<ICollection<BuyersViewModel>> All(string dbOwnerId)
         {
-            var allBuyers = this.buyerRepository.All()
+            var allBuyers = await this.buyerRepository.All()
                 .Where(x => x.DatabaseОwnerId == dbOwnerId)
                 .Select(x => new BuyersViewModel()
                 {
@@ -90,7 +90,7 @@
                     StreetNumber = x.Company.Adress.StreetNumber,
                 })
               .OrderBy(n => n.CompanyName)
-              .ToList();
+              .ToListAsync();
 
             return allBuyers;
         }

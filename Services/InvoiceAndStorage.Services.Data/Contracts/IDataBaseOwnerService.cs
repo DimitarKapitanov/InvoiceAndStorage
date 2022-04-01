@@ -10,6 +10,8 @@
 
         Task AddUser(ApplicationUser user, string databaseOwnerId);
 
+        Task<string> GetDatabaseОwner(string userId);
+
         Task<string> AddBuyer(string buyerId, string databaseOwnerId);
     }
 }

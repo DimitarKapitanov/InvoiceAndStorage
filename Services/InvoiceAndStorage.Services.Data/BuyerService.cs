@@ -8,6 +8,7 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Buyers;
+    using Microsoft.EntityFrameworkCore;
 
     public class BuyerService : IBuyerService
     {
@@ -34,13 +35,17 @@
             this.dataBaseOwnerService = dataBaseOwnerService;
         }
 
-        public async Task<bool> CreateBuyer(AddBuyerViewModel model, string userId)
+        public async Task<bool> CreateBuyer(AddBuyerViewModel model, string userId, string dataOwner)
         {
-            var user = this.applicationUser.All().FirstOrDefault(x => x.Id == userId);
+            var dbOwner = this.dataBaseOwner
+                .All()
+                .FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId).DatabaseОwnerId == dataOwner);
 
-            var databaseOwner = user.DatabaseОwner;
+            var buyer = dbOwner.Buyers.FirstOrDefault(x => x.DatabaseОwnerId == dataOwner);
 
-            var buyer = databaseOwner.Buyers.FirstOrDefault(x => x.DatabaseОwnerId == databaseOwner.Id);
+            var companyId = await this.companyServise.CreateCompany(model);
+
+            var company = await this.companyServise.GetCompany(companyId);
 
             var isCreate = false;
 
@@ -48,8 +53,21 @@
             {
                 buyer = new Buyer
                 {
-                    CompanyId = await this.companyServise.CreateCompany(model),
+                    CompanyId = company.Id,
+                    DatabaseОwnerId = dbOwner.Id,
                 };
+
+                dbOwner.Buyers.Add(buyer);
+
+                company.DatabaseОwnerId = dbOwner.Id;
+                company.BuyerId = buyer.Id;
+
+                this.dataBaseOwner.Update(dbOwner);
+                this.companyRepository.Update(company);
+
+                await this.dataBaseOwner.SaveChangesAsync();
+
+                isCreate = true;
 
                 return isCreate;
             }
@@ -59,23 +77,22 @@
 
         public async Task<ICollection<BuyersViewModel>> All(string dbOwnerId)
         {
-            var dbOwner = this.dataBaseOwner.All().FirstOrDefault(o => o.Id == dbOwnerId);
-
-            var allBuyers = dbOwner.Buyers.Where(x => x.Id == x.Company.BuyerId)
-                  .Select(x => new BuyersViewModel()
-                  {
-                      CompanyName = x.Company.CompanyName,
-                      CompanyIdentificationNumber = x.Company.IdentificationNumber,
-                      CompanyOwner = x.Company.CompanyOwner,
-                      CountryName = x.Company.Adress.Country.CountryName,
-                      CityName = x.Company.Adress.City.CityName,
-                      StreetName = x.Company.Adress.Street.StreetName,
-                      StreetNumber = x.Company.Adress.Street.StreetNumber,
-                  })
+            var allBuyers = this.buyerRepository.All()
+                .Where(x => x.DatabaseОwnerId == dbOwnerId)
+                .Select(x => new BuyersViewModel()
+                {
+                    CompanyName = x.Company.CompanyName,
+                    CompanyIdentificationNumber = x.Company.IdentificationNumber,
+                    CompanyOwner = x.Company.CompanyOwner,
+                    CountryName = x.Company.Adress.CountryName,
+                    CityName = x.Company.Adress.CityName,
+                    StreetName = x.Company.Adress.StreetName,
+                    StreetNumber = x.Company.Adress.StreetNumber,
+                })
               .OrderBy(n => n.CompanyName)
               .ToList();
 
-            return default;
+            return allBuyers;
         }
     }
 }

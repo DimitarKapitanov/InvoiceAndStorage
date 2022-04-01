@@ -44,9 +44,11 @@
                 return this.View(addBuyerViewModel);
             }
 
-            var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = this.userManager.GetUserId(this.User);
 
-            var isCreate = await this.buyerService.CreateBuyer(addBuyerViewModel, user);
+            var owner = await this.databaseOwner.GetDatabaseОwner(user);
+
+            var isCreate = await this.buyerService.CreateBuyer(addBuyerViewModel, user, owner);
 
             if (!isCreate)
             {
@@ -61,9 +63,9 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
+            var user = this.dataBaseOwnerRepository.All().Select(x=>x.ApplicationUsers.FirstOrDefault(u=>u.Id == userId)).FirstOrDefault();
 
-            var dbOwner = this.dataBaseOwnerRepository.All().FirstOrDefault();
+            var dbOwner = this.dataBaseOwnerRepository.All().FirstOrDefault(d => d.Id == user.DatabaseОwnerId);
 
             var buyers = await this.buyerService.All(dbOwner.Id);
 

@@ -6,6 +6,7 @@
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
+    using Microsoft.EntityFrameworkCore;
 
     public class DataBaseOwnerService : IDataBaseOwnerService
     {
@@ -70,6 +71,17 @@
             await this.dbRepository.SaveChangesAsync();
 
             return databaseOwner.Id;
+        }
+
+        public async Task<string> GetDatabaseОwner(string userId)
+        {
+            var owners = this.dbRepository
+                .All()
+                .Select(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId)).FirstOrDefault();
+
+            var dbOwner = this.dbRepository.All().FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId).DatabaseОwnerId == owners.DatabaseОwnerId);
+
+            return dbOwner.Id;
         }
     }
 }

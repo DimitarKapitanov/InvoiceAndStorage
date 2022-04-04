@@ -63,7 +63,7 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.dataBaseOwnerRepository.All().Select(x=>x.ApplicationUsers.FirstOrDefault(u=>u.Id == userId)).FirstOrDefault();
+            var user = this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefault();
 
             var dbOwner = this.dataBaseOwnerRepository.All().FirstOrDefault(d => d.Id == user.DatabaseОwnerId);
 

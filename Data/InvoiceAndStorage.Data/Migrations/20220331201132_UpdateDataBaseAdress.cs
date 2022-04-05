@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
-
-namespace InvoiceAndStorage.Data.Migrations
+﻿namespace InvoiceAndStorage.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class UpdateDataBaseAdress : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +59,7 @@ namespace InvoiceAndStorage.Data.Migrations
                 type: "nvarchar(100)",
                 maxLength: 100,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "CountryName",
@@ -68,7 +67,7 @@ namespace InvoiceAndStorage.Data.Migrations
                 type: "nvarchar(100)",
                 maxLength: 100,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "StreetName",
@@ -76,7 +75,7 @@ namespace InvoiceAndStorage.Data.Migrations
                 type: "nvarchar(100)",
                 maxLength: 100,
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<int>(
                 name: "StreetNumber",
@@ -109,21 +108,21 @@ namespace InvoiceAndStorage.Data.Migrations
                 table: "Adress",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "CountryId",
                 table: "Adress",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.AddColumn<string>(
                 name: "StreetId",
                 table: "Adress",
                 type: "nvarchar(450)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: string.Empty);
 
             migrationBuilder.CreateTable(
                 name: "Countries",
@@ -134,7 +133,7 @@ namespace InvoiceAndStorage.Data.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -151,7 +150,7 @@ namespace InvoiceAndStorage.Data.Migrations
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                 },
                 constraints: table =>
                 {
@@ -174,7 +173,7 @@ namespace InvoiceAndStorage.Data.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     StreetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetNumber = table.Column<int>(type: "int", nullable: false)
+                    StreetNumber = table.Column<int>(type: "int", nullable: false),
                 },
                 constraints: table =>
                 {

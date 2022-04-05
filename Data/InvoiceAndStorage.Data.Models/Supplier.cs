@@ -12,6 +12,7 @@
         public Supplier()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Products = new HashSet<Product>();
         }
 
         [Required]

@@ -7,7 +7,6 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data;
     using InvoiceAndStorage.Web.ViewModels.Settings;
-
     using Microsoft.AspNetCore.Mvc;
 
     public class SettingsController : BaseController

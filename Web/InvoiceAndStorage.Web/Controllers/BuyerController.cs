@@ -17,20 +17,17 @@
         private readonly IDataBaseOwnerService databaseOwner;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public BuyerController(
             IBuyerService buyerService,
             IDataBaseOwnerService databaseOwner,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository)
+            IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository)
         {
             this.buyerService = buyerService;
             this.databaseOwner = databaseOwner;
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
-            this.userRepository = userRepository;
         }
 
         [HttpGet]

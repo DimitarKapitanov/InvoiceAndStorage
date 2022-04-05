@@ -2,7 +2,6 @@
 {
     using InvoiceAndStorage.Services.Data;
     using InvoiceAndStorage.Web.ViewModels.Administration.Dashboard;
-
     using Microsoft.AspNetCore.Mvc;
 
     public class DashboardController : AdministrationController

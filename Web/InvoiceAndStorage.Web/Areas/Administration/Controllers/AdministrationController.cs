@@ -2,7 +2,6 @@
 {
     using InvoiceAndStorage.Common;
     using InvoiceAndStorage.Web.Controllers;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

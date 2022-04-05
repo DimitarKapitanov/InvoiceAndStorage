@@ -8,24 +8,21 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Buyers;
+    using InvoiceAndStorage.Web.ViewModels.Supplier;
     using Microsoft.EntityFrameworkCore;
 
     public class CompanyService : ICompanyServise
     {
-        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
-
         private readonly IDeletableEntityRepository<Company> companyRepository;
 
         private readonly IDeletableEntityRepository<Adress> adressRepository;
 
         public CompanyService(
             IDeletableEntityRepository<Company> companyRepository,
-            IDeletableEntityRepository<Adress> adressRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository)
+            IDeletableEntityRepository<Adress> adressRepository)
         {
             this.companyRepository = companyRepository;
             this.adressRepository = adressRepository;
-            this.userRepository = userRepository;
         }
 
         public async Task<string> CreateCompany(
@@ -88,6 +85,39 @@
             var company = this.companyRepository
                 .All()
                 .FirstOrDefault(x => x.IdentificationNumber == model.CompanyIdentificationNumber);
+
+            if (company != null)
+            {
+                return company.Id;
+            }
+
+            company = new Company
+            {
+                IdentificationNumber = model.CompanyIdentificationNumber,
+                BankName = model.BankName,
+                BankAccount = model.BankAccount,
+                BankCode = model.BankCode,
+                CompanyName = model.CompanyName,
+                CompanyOwner = model.CompanyOwner,
+                VatNumber = $"BG{model.CompanyIdentificationNumber}",
+                AdressId = await this.CreateAdress(
+                    model.CountryName,
+                    model.CountryName,
+                    model.StreetName,
+                    model.StreetNumber),
+            };
+
+            await this.companyRepository.AddAsync(company);
+            await this.companyRepository.SaveChangesAsync();
+
+            return company.Id;
+        }
+
+        public async Task<string> CreateCompany(AddSupplierViewModel model)
+        {
+            var company = this.companyRepository
+               .All()
+               .FirstOrDefault(x => x.IdentificationNumber == model.CompanyIdentificationNumber);
 
             if (company != null)
             {

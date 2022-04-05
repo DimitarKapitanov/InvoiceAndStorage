@@ -13,7 +13,6 @@
     using InvoiceAndStorage.Services.Mapping;
     using InvoiceAndStorage.Services.Messaging;
     using InvoiceAndStorage.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -69,6 +68,8 @@
             services.AddTransient<ICompanyServise, CompanyService>();
             services.AddTransient<IDataBaseOwnerService, DataBaseOwnerService>();
             services.AddTransient<IBuyerService, BuyerService>();
+            services.AddTransient<ISupplierSevice, SupplireService>();
+            services.AddTransient<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

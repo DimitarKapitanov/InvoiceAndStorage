@@ -1,0 +1,39 @@
+﻿@using InvoiceAndStorage.Web.ViewModels.Product
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = "AllProducts";
+}
+
+<h1>AllProducts</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-responsive table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model=>model.Name)</th>
+            <th>@Html.DisplayNameFor(model=>model.Amount)</th>
+            <th>@Html.DisplayNameFor(model=>model.Price)</th>
+            <th>@Html.DisplayNameFor(model=>model.DeliveryDate)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Amount</td>
+                <td>@item.Price</td>
+                <td>@item.DeliveryDate</td>
+                <td>@item.SupplierName</td>
+                <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -12,18 +12,15 @@
     {
         private readonly IDeletableEntityRepository<DatabaseОwner> dbRepository;
         private readonly IDeletableEntityRepository<Company> companyRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> applicationUser;
         private readonly IDeletableEntityRepository<Buyer> buyerRepository;
 
         public DataBaseOwnerService(
             IDeletableEntityRepository<DatabaseОwner> repository,
             IDeletableEntityRepository<Company> companyRepository,
-            IDeletableEntityRepository<ApplicationUser> applicationUser,
             IDeletableEntityRepository<Buyer> buyerRepository)
         {
             this.dbRepository = repository;
             this.companyRepository = companyRepository;
-            this.applicationUser = applicationUser;
             this.buyerRepository = buyerRepository;
         }
 
@@ -75,9 +72,9 @@
 
         public async Task<string> GetDatabaseОwner(string userId)
         {
-            var owners = this.dbRepository
+            var owners = await this.dbRepository
                 .All()
-                .Select(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId)).FirstOrDefault();
+                .Select(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId)).FirstOrDefaultAsync();
 
             var dbOwner = this.dbRepository.All().FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId).DatabaseОwnerId == owners.DatabaseОwnerId);
 

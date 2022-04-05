@@ -1,14 +1,14 @@
-﻿@using InvoiceAndStorage.Web.ViewModels.Buyers
-@model IEnumerable<BuyersViewModel>
+﻿@using InvoiceAndStorage.Web.ViewModels.Supplier
+@model IEnumerable<SuppliersViewModel>
 
 @{
-    ViewData["Title"] = "AllBuyers";
+    ViewData["Title"] = "AllSuppliers";
 }
 
-<h1>Клиенти</h1>
+<h1>Доставчици</h1>
 
 <p>
-    <a asp-action="AddBuyers">Създай нов клиент</a>
+    <a asp-action="AddSuppliers">Създай нов доставчик</a>
 </p>
 <table class="table table-responsive table-hover">
     <thead>
@@ -63,12 +63,12 @@
                     @Html.DisplayFor(modelItem => item.StreetNumber)
                 </td>
                 <td>
-
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    <a asp-controller="Product" asp-action="AddProduct" asp-route-id="@item.CompanyIdentificationNumber">Добвави продукт</a> |
                     @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>
+            //("Edit", "Edit", new { /* id=item.PrimaryKey */ }
         }
     </tbody>
 </table>

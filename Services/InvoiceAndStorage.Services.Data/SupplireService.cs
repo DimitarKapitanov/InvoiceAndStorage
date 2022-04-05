@@ -7,54 +7,54 @@
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
-    using InvoiceAndStorage.Web.ViewModels.Buyers;
+    using InvoiceAndStorage.Web.ViewModels.Supplier;
     using Microsoft.EntityFrameworkCore;
 
-    public class BuyerService : IBuyerService
+    public class SupplireService : ISupplierSevice
     {
-        private readonly IDeletableEntityRepository<Buyer> buyerRepository;
+        private readonly ICompanyServise companyServise;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwner;
         private readonly IDeletableEntityRepository<Company> companyRepository;
-        private readonly ICompanyServise companyServise;
+        private readonly IDeletableEntityRepository<Supplier> supplierRepository;
 
-        public BuyerService(
-            IDeletableEntityRepository<Buyer> buyerRepository,
+        public SupplireService(
             IDeletableEntityRepository<DatabaseОwner> dataBaseOwner,
+            ICompanyServise companyServise,
             IDeletableEntityRepository<Company> companyRepository,
-            ICompanyServise companyServise)
+            IDeletableEntityRepository<Supplier> supplierRepository)
         {
-            this.buyerRepository = buyerRepository;
             this.dataBaseOwner = dataBaseOwner;
-            this.companyRepository = companyRepository;
             this.companyServise = companyServise;
+            this.companyRepository = companyRepository;
+            this.supplierRepository = supplierRepository;
         }
 
-        public async Task<bool> CreateBuyer(AddBuyerViewModel model, string userId, string dataOwner)
+        public async Task<bool> CreateSupplire(AddSupplierViewModel addSupplierViewModel, string userId, string dataOwner)
         {
             var dbOwner = this.dataBaseOwner
                 .All()
                 .FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId).DatabaseОwnerId == dataOwner);
 
-            var buyer = dbOwner.Buyers.FirstOrDefault(x => x.DatabaseОwnerId == dataOwner);
+            var supplier = dbOwner.Suppliers.FirstOrDefault(x => x.DatabaseОwnerId == dataOwner);
 
-            var companyId = await this.companyServise.CreateCompany(model);
+            var companyId = await this.companyServise.CreateCompany(addSupplierViewModel);
 
             var company = await this.companyServise.GetCompany(companyId);
 
             var isCreate = false;
 
-            if (buyer == null)
+            if (supplier == null)
             {
-                buyer = new Buyer
+                supplier = new Supplier
                 {
                     CompanyId = company.Id,
                     DatabaseОwnerId = dbOwner.Id,
                 };
 
-                dbOwner.Buyers.Add(buyer);
+                dbOwner.Suppliers.Add(supplier);
 
                 company.DatabaseОwnerId = dbOwner.Id;
-                company.BuyerId = buyer.Id;
+                company.SupplierId = supplier.Id;
 
                 this.dataBaseOwner.Update(dbOwner);
                 this.companyRepository.Update(company);
@@ -69,11 +69,11 @@
             return isCreate;
         }
 
-        public async Task<ICollection<BuyersViewModel>> All(string dbOwnerId)
+        public async Task<ICollection<SuppliersViewModel>> AllSuppliers(string dbOwnerId)
         {
-            var allBuyers = await this.buyerRepository.All()
+            var allSuppliers = await this.supplierRepository.All()
                 .Where(x => x.DatabaseОwnerId == dbOwnerId)
-                .Select(x => new BuyersViewModel()
+                .Select(x => new SuppliersViewModel()
                 {
                     CompanyName = x.Company.CompanyName,
                     CompanyIdentificationNumber = x.Company.IdentificationNumber,
@@ -86,7 +86,16 @@
               .OrderBy(n => n.CompanyName)
               .ToListAsync();
 
-            return allBuyers;
+            return allSuppliers;
+        }
+
+        public async Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber)
+        {
+            var supplier = await this.supplierRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Company.IdentificationNumber == identificationNumber);
+
+            return supplier;
         }
     }
 }

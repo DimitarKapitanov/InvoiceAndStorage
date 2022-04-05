@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using InvoiceAndStorage.Data.Models;
+
     using InvoiceAndStorage.Web.ViewModels.Buyers;
 
     public interface IBuyerService

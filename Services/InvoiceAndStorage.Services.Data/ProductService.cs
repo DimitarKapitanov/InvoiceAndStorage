@@ -8,6 +8,7 @@
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
+    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using InvoiceAndStorage.Web.ViewModels.Product;
     using Microsoft.EntityFrameworkCore;
 
@@ -104,7 +105,7 @@
                         a.Amount,
                         a.Price,
                         SupplierName = p.Company.CompanyName,
-                        DeliveryDate = DateTime.UtcNow,
+                        DeliveryDate = DateTime.UtcNow.Date,
                     }).ToList()).ToListAsync();
 
             var allProducts = new List<ProductViewModel>();
@@ -119,7 +120,7 @@
                         Amount = item.Amount,
                         Price = item.Price,
                         SupplierName = item.SupplierName,
-                        DeliveryDate = item.DeliveryDate,
+                        DeliveryDate = item.DeliveryDate.Date,
                     };
 
                     allProducts.Add(productViewModel);

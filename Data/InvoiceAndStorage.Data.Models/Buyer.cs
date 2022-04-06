@@ -12,6 +12,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Product = new HashSet<Product>();
+            this.Invoices = new HashSet<Invoice>();
         }
 
         [Required]
@@ -24,5 +25,7 @@
         public virtual DatabaseОwner DatabaseОwner { get; set; }
 
         public virtual ICollection<Product> Product { get; set; }
+
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

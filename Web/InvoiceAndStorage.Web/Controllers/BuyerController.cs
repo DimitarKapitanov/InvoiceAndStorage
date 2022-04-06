@@ -1,7 +1,6 @@
 ﻿namespace InvoiceAndStorage.Web.Controllers
 {
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using InvoiceAndStorage.Data.Common.Repositories;

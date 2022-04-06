@@ -88,5 +88,14 @@
 
             return allBuyers;
         }
+
+        public async Task<Buyer> GetBuyer(string buyerIdentificationNumber)
+        {
+            var buyer = await this.buyerRepository
+                .All()
+                .FirstOrDefaultAsync(x => x.Company.IdentificationNumber == buyerIdentificationNumber);
+
+            return buyer;
+        }
     }
 }

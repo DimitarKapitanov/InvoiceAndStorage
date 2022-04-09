@@ -4,7 +4,7 @@ namespace InvoiceAndStorage.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class UpdateDataBase : Migration
+    public partial class UpdateSoldProductPropSoldProducts : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

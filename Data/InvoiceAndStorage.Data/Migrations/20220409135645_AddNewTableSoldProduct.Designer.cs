@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAndStorage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220331204052_UpdateDataBase")]
-    partial class UpdateDataBase
+    [Migration("20220409135645_AddNewTableSoldProduct")]
+    partial class AddNewTableSoldProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -337,8 +337,11 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -364,12 +367,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("InvoiceNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("InvoiceNumber"), 1L, 1);
-
                     b.Property<int>("InvoiceTipe")
                         .HasColumnType("int");
 
@@ -381,6 +378,9 @@ namespace InvoiceAndStorage.Data.Migrations
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalInvoiceSum")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -415,8 +415,8 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InvoiceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -479,6 +479,48 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("InvoiceAndStorage.Data.Models.SoldProduct", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("InvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Qantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SinglePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.ToTable("SoldProducts");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -683,7 +725,7 @@ namespace InvoiceAndStorage.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("InvoiceAndStorage.Data.Models.Buyer", "Buyer")
-                        .WithMany()
+                        .WithMany("Invoices")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -703,7 +745,7 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Product", b =>
                 {
-                    b.HasOne("InvoiceAndStorage.Data.Models.Buyer", null)
+                    b.HasOne("InvoiceAndStorage.Data.Models.Buyer", "Buyer")
                         .WithMany("Product")
                         .HasForeignKey("BuyerId");
 
@@ -717,7 +759,20 @@ namespace InvoiceAndStorage.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.Navigation("Buyer");
+
                     b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("InvoiceAndStorage.Data.Models.SoldProduct", b =>
+                {
+                    b.HasOne("InvoiceAndStorage.Data.Models.Invoice", "Invoice")
+                        .WithMany("SoldProducts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -801,6 +856,8 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Buyer", b =>
                 {
+                    b.Navigation("Invoices");
+
                     b.Navigation("Product");
                 });
 
@@ -827,6 +884,8 @@ namespace InvoiceAndStorage.Data.Migrations
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
                     b.Navigation("Products");
+
+                    b.Navigation("SoldProducts");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>

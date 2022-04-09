@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAndStorage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220330210347_CreataDataBase")]
-    partial class CreataDataBase
+    [Migration("20220409095758_CreateDatabase")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,13 +29,15 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CityId")
+                    b.Property<string>("CityName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("CountryId")
+                    b.Property<string>("CountryName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -49,19 +51,17 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("StreetId")
+                    b.Property<string>("StreetName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("StreetNumber")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("StreetId");
 
                     b.ToTable("Adress");
                 });
@@ -241,39 +241,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.ToTable("Buyers");
                 });
 
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.City", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CityName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CountryId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Cities");
-                });
-
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Company", b =>
                 {
                     b.Property<string>("Id")
@@ -337,34 +304,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Country", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CountryName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Countries");
-                });
-
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.DatabaseОwner", b =>
                 {
                     b.Property<string>("Id")
@@ -398,8 +337,11 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
                         .IsRequired()
@@ -424,12 +366,6 @@ namespace InvoiceAndStorage.Data.Migrations
 
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<long>("InvoiceNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("InvoiceNumber"), 1L, 1);
 
                     b.Property<int>("InvoiceTipe")
                         .HasColumnType("int");
@@ -476,8 +412,8 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("InvoiceId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -540,42 +476,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Street", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("CityId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StreetName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StreetNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("Streets");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -721,33 +621,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Adress", b =>
-                {
-                    b.HasOne("InvoiceAndStorage.Data.Models.City", "City")
-                        .WithMany()
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("InvoiceAndStorage.Data.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("InvoiceAndStorage.Data.Models.Street", "Street")
-                        .WithMany()
-                        .HasForeignKey("StreetId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("Street");
-                });
-
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("InvoiceAndStorage.Data.Models.DatabaseОwner", "DatabaseОwner")
@@ -774,13 +647,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("DatabaseОwner");
-                });
-
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.City", b =>
-                {
-                    b.HasOne("InvoiceAndStorage.Data.Models.Country", null)
-                        .WithMany("Cities")
-                        .HasForeignKey("CountryId");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Company", b =>
@@ -814,7 +680,7 @@ namespace InvoiceAndStorage.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("InvoiceAndStorage.Data.Models.Buyer", "Buyer")
-                        .WithMany()
+                        .WithMany("Invoices")
                         .HasForeignKey("BuyerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -834,7 +700,7 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Product", b =>
                 {
-                    b.HasOne("InvoiceAndStorage.Data.Models.Buyer", null)
+                    b.HasOne("InvoiceAndStorage.Data.Models.Buyer", "Buyer")
                         .WithMany("Product")
                         .HasForeignKey("BuyerId");
 
@@ -848,14 +714,9 @@ namespace InvoiceAndStorage.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Supplier");
-                });
+                    b.Navigation("Buyer");
 
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Street", b =>
-                {
-                    b.HasOne("InvoiceAndStorage.Data.Models.City", null)
-                        .WithMany("Streets")
-                        .HasForeignKey("CityId");
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -939,12 +800,9 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Buyer", b =>
                 {
-                    b.Navigation("Product");
-                });
+                    b.Navigation("Invoices");
 
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.City", b =>
-                {
-                    b.Navigation("Streets");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Company", b =>
@@ -954,11 +812,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Navigation("DatabaseОwner");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Country", b =>
-                {
-                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.DatabaseОwner", b =>

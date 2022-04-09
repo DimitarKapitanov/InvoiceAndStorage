@@ -6,7 +6,7 @@ namespace InvoiceAndStorage.Data.Migrations
 
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class CreataDataBase : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,74 +41,14 @@ namespace InvoiceAndStorage.Data.Migrations
                 defaultValue: string.Empty);
 
             migrationBuilder.CreateTable(
-                name: "Countries",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CountryName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cities",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CountryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cities_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Streets",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StreetName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetNumber = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Streets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Streets_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Adress",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CountryId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CityId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StreetId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    StreetName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    StreetNumber = table.Column<int>(type: "int", nullable: false),
+                    CityName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CountryName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -117,24 +57,6 @@ namespace InvoiceAndStorage.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Adress", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Adress_Cities_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Cities",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Adress_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Adress_Streets_StreetId",
-                        column: x => x.StreetId,
-                        principalTable: "Streets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -252,8 +174,7 @@ namespace InvoiceAndStorage.Data.Migrations
                 name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    InvoiceNumber = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BuyerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DatabaseОwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -301,7 +222,7 @@ namespace InvoiceAndStorage.Data.Migrations
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     BuyerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    InvoiceId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    InvoiceId = table.Column<int>(type: "int", nullable: true),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
@@ -334,24 +255,9 @@ namespace InvoiceAndStorage.Data.Migrations
                 column: "DatabaseОwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Adress_CityId",
-                table: "Adress",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adress_CountryId",
-                table: "Adress",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Adress_IsDeleted",
                 table: "Adress",
                 column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adress_StreetId",
-                table: "Adress",
-                column: "StreetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Buyers_CompanyId",
@@ -370,16 +276,6 @@ namespace InvoiceAndStorage.Data.Migrations
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cities_CountryId",
-                table: "Cities",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cities_IsDeleted",
-                table: "Cities",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Companies_AdressId",
                 table: "Companies",
                 column: "AdressId");
@@ -387,11 +283,6 @@ namespace InvoiceAndStorage.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_IsDeleted",
                 table: "Companies",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Countries_IsDeleted",
-                table: "Countries",
                 column: "IsDeleted");
 
             migrationBuilder.CreateIndex(
@@ -446,16 +337,6 @@ namespace InvoiceAndStorage.Data.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Streets_CityId",
-                table: "Streets",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Streets_IsDeleted",
-                table: "Streets",
-                column: "IsDeleted");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Suppliers_CompanyId",
                 table: "Suppliers",
                 column: "CompanyId",
@@ -506,15 +387,6 @@ namespace InvoiceAndStorage.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Adress");
-
-            migrationBuilder.DropTable(
-                name: "Streets");
-
-            migrationBuilder.DropTable(
-                name: "Cities");
-
-            migrationBuilder.DropTable(
-                name: "Countries");
 
             migrationBuilder.DropIndex(
                 name: "IX_AspNetUsers_DatabaseОwnerId",

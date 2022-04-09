@@ -4,6 +4,7 @@ using InvoiceAndStorage.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InvoiceAndStorage.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220409124508_AddInvoicePropertyTotalInvoiceSum")]
+    partial class AddInvoicePropertyTotalInvoiceSum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -413,6 +415,9 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime>("DeliveryDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("InvoiceId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -433,6 +438,8 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
+
+                    b.HasIndex("InvoiceId");
 
                     b.HasIndex("IsDeleted");
 
@@ -472,48 +479,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Settings");
-                });
-
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.SoldProduct", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Qantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("SinglePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TotalValue")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.ToTable("SoldProducts");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -742,6 +707,10 @@ namespace InvoiceAndStorage.Data.Migrations
                         .WithMany("Product")
                         .HasForeignKey("BuyerId");
 
+                    b.HasOne("InvoiceAndStorage.Data.Models.Invoice", null)
+                        .WithMany("Products")
+                        .HasForeignKey("InvoiceId");
+
                     b.HasOne("InvoiceAndStorage.Data.Models.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId")
@@ -751,17 +720,6 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Supplier");
-                });
-
-            modelBuilder.Entity("InvoiceAndStorage.Data.Models.SoldProduct", b =>
-                {
-                    b.HasOne("InvoiceAndStorage.Data.Models.Invoice", "Invoice")
-                        .WithMany("SoldProducts")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>
@@ -872,7 +830,7 @@ namespace InvoiceAndStorage.Data.Migrations
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
-                    b.Navigation("SoldProducts");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>

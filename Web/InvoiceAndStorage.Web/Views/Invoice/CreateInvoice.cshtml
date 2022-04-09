@@ -1,79 +1,108 @@
-﻿@model InvoiceAndStorage.Web.ViewModels.Invoice.InvoiceViewModel
+﻿@using InvoiceAndStorage.Data.Models.Enums
+@using InvoiceAndStorage.Web.ViewModels.Invoice
+@model InvoiceAndStorage.Web.ViewModels.Invoice.CreateInvoiceViewModel
 
 @{
     ViewData["Title"] = "CreateInvoice";
+   //this.Model.InvoiceProductViewModels = new List<InvoiceProductViewModel>();
+}
+@if (TempData["CreateInvoice"] != null)
+{
+    <div id="newCreateInvoice" class="alert alert-danger"><h3>@TempData["CreateInvoice"]</h3></div>
 }
 
-<h1>CreateInvoice</h1>
+<h1>Създай нова фактура</h1>
 
-<h4>CreateBuyerInvoiceViewModel</h4>
 <hr />
-<div class="flex-fill">
-    <div class="flex-column align-content-center">
-        <form asp-action="CreateInvoice" asp-controller="Invoice">
+<div class="flex">
+    <div class="flex-column flex-fill">
+        <form asp-action="CreateInvoice">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="d-flex justify-content-center">
-                <div class="form-group p-4">
+                <div class="form-group p-3">
                     <label asp-for="BuyerIdentificationNumber" class="control-label"></label>
                     <input asp-for="BuyerIdentificationNumber" class="form-control" />
                     <span asp-validation-for="BuyerIdentificationNumber" class="text-danger"></span>
                 </div>
-                <div class="form-group p-4 dropdown">
+                <div class="form-group p-3 dropdown">
                     <label asp-for="PaymentMethod" class="control-label"></label>
-                    <input asp-for="PaymentMethod" class="form-control" />
+                    <select asp-for="PaymentMethod" id="type" class="form-control" asp-items="Html.GetEnumSelectList<PaymentMethod>()"></select>
                     <span asp-validation-for="PaymentMethod" class="text-danger"></span>
                 </div>
-                <div class="form-group p-4">
+                <div class="form-group p-3">
                     <label asp-for="InvoiceTipe" class="control-label"></label>
-                    <input asp-for="InvoiceTipe" class="form-control" />
+                    <select asp-for="InvoiceTipe" id="type" class="form-control" asp-items="Html.GetEnumSelectList<InvoiceTipe>()"></select>
                     <span asp-validation-for="InvoiceTipe" class="text-danger"></span>
                 </div>
             </div>
-            <div class="flex-fill justify-content-center">
-                <table class="table table-hover">
-                    <thead class="align-items-center">
-                        <tr>
-                            <th>
-                                Product name
-                            </th>
-                            <th>
-                                Amount
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                        </tr>
 
+            <div class="flex-fill justify-content-center form-group">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                <label class="control-label">Ине на продукта</label>
+                            </td>
+                            <td>
+                                <label class="control-label">Количество на склад</label>
+                            </td>
+                            <td>
+                                <label class="control-label">Цена</label>
+                            </td>
+                            <td>
+                                <label class="control-label">Количесто</label>
+                            </td>
+                        </tr>
                     </thead>
-                    <tbody>
-                        @foreach (var item in Model.InvoiceProductViewModels)
+                    <tbody class="form-group">
+                        @for (var i = 0; i < Model.InvoiceProductViewModels.Count; i++)
                         {
                             <tr>
                                 <td>
-                                    @item.ProductName
+                                    <div class="form-group">
+                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].ProductName"></label>*@
+                                        <input asp-for="InvoiceProductViewModels[i].ProductName" class="form-control" />
+                                    </div>
                                 </td>
                                 <td>
-                                    @item.Amount
+                                    <div class="form-group">
+                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Amount"></label>*@
+                                        <input asp-for="InvoiceProductViewModels[i].Amount" class="form-control" />
+
+                                    </div>
                                 </td>
                                 <td>
-                                    @item.Price
+                                    <div class="form-group">
+                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Price"></label>*@
+                                        <input asp-for="InvoiceProductViewModels[i].Price" class="form-control" />
+                                    </div>
                                 </td>
+
                                 <td>
-                                    <input class="input-" type="number" />
+                                    <div class="form-group">
+                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Quantity"></label>*@
+                                        <input asp-for="InvoiceProductViewModels[i].Quantity" class="form-control" />
+                                    </div>
                                 </td>
-                                <td>
                             </tr>
-                            <br />
                         }
                     </tbody>
                 </table>
             </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    setTimeout(function () {
+        $('#newCreateInvoice').hide('fade');
+    }, 10000);
+</script> 

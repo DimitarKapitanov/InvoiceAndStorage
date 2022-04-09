@@ -5,11 +5,11 @@
     ViewData["Title"] = "AllProducts";
 }
 
-<h1>AllProducts</h1>
+<h1>Всички продукти</h1>
 
-<p>
+@*<p>
     <a asp-action="Create">Create New</a>
-</p>
+</p>*@
 <table class="table table-hover">
     <thead>
         <tr >
@@ -27,7 +27,7 @@
                 <td>@item.Name</td>
                 <td>@item.Amount</td>
                 <td>@item.Price</td>
-                <td>@item.DeliveryDate</td>
+                <td>@item.DeliveryDate.Date</td>
                 <td>@item.SupplierName</td>
             </tr>
         }

@@ -30,5 +30,9 @@
         public string SupplierId { get; set; }
 
         public Supplier Supplier { get; set; }
+
+        public string BuyerId { get; set; }
+
+        public Buyer Buyer { get; set; }
     }
 }

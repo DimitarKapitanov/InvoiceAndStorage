@@ -32,11 +32,7 @@
         public IActionResult AddProduct()
         {
             var supplier = this.HttpContext.Request.RouteValues.Values.ToList();
-            if (supplier.Count == 3)
-            {
-                _ = supplier[2].ToString();
-            }
-            else
+            if (supplier.Count < 3)
             {
                 return this.RedirectToAction("AddProductWithoutVatNumber");
             }
@@ -94,7 +90,7 @@
                 return this.View(addProductViewModel);
             }
 
-            return this.RedirectToAction("AllProducrs");
+            return this.RedirectToAction("AllProducts");
         }
 
         public async Task<IActionResult> AllProducts()

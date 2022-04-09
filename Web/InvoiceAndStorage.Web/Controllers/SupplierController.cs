@@ -46,7 +46,7 @@
                 return this.View(supplierViewModel);
             }
 
-            return this.View();
+            return this.Redirect("/Product/AddProduct");
         }
 
         public async Task<IActionResult> AllSuppliers()

@@ -1,5 +1,6 @@
 ﻿namespace InvoiceAndStorage.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -27,6 +28,7 @@
             this.invoiceService = invoiceService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> CreateInvoice()
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -35,25 +37,32 @@
 
             var dbOwner = await this.dataBaseOwnerRepository.All().FirstOrDefaultAsync(d => d.Id == user.DatabaseОwnerId);
 
-            var products = this.invoiceService.GetAllInvoiceProducts(dbOwner);
+            var products = await this.invoiceService.GetAllInvoiceProducts(dbOwner);
 
-            return this.View(products);
+            var invoice = new CreateInvoiceViewModel
+            {
+                InvoiceProductViewModels = new List<InvoiceProductViewModel>(),
+            };
+
+            invoice = products;
+
+            return this.View(invoice);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateInvoice(InvoiceViewModel createInvoiceModel)
+        public async Task<IActionResult> CreateInvoice(CreateInvoiceViewModel createInvoiceModel)
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
+            var (isValid, error) = await this.invoiceService.AddInvoice(createInvoiceModel, userId);
 
-            var dbOwner = await this.dataBaseOwnerRepository.All().FirstOrDefaultAsync(d => d.Id == user.DatabaseОwnerId);
+            if (!isValid)
+            {
+                this.TempData["CreateInvoice"] = error;
+                return this.View("CreateInvoice", createInvoiceModel);
+            }
 
-            var isCreated = this.invoiceService.AddInvoice(createInvoiceModel, dbOwner, user);
-
-
-
-            return this.View();
+            return this.Redirect("/");
         }
     }
 }

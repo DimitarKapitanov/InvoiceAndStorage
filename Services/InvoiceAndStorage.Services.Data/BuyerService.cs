@@ -59,6 +59,7 @@
                 this.dataBaseOwner.Update(dbOwner);
                 this.companyRepository.Update(company);
 
+                await this.buyerRepository.AddAsync(buyer);
                 await this.dataBaseOwner.SaveChangesAsync();
 
                 isCreate = true;

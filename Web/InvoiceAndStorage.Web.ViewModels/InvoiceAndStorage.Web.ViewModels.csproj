@@ -27,4 +27,13 @@
     <ProjectReference Include="..\..\Services\InvoiceAndStorage.Services.Mapping\InvoiceAndStorage.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Invoice\InvoiceProductViewModel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Invoice\CreateInvoiceViewModel.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>

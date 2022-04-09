@@ -8,16 +8,14 @@
     using InvoiceAndStorage.Data.Common.Models;
     using InvoiceAndStorage.Data.Models.Enums;
 
-    public class Invoice : BaseDeletableModel<string>
+    public class Invoice : BaseDeletableModel<int>
     {
         public Invoice()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Products = new HashSet<Product>();
+            this.SoldProducts = new List<SoldProduct>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long InvoiceNumber { get; set; }
+        public decimal TotalInvoiceSum { get; set; }
 
         [Required]
         public string BuyerId { get; set; }
@@ -43,6 +41,6 @@
 
         public InvoiceTipe InvoiceTipe { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<SoldProduct> SoldProducts { get; set; }
     }
 }

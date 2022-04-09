@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
 
     using InvoiceAndStorage.Data.Models;
-    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using InvoiceAndStorage.Web.ViewModels.Product;
 
     public interface IProductService

@@ -63,9 +63,7 @@
                     @Html.DisplayFor(modelItem => item.StreetNumber)
                 </td>
                 <td>
-                    <a asp-controller="Product" asp-action="AddProduct" asp-route-id="@item.CompanyIdentificationNumber">Добвави продукт</a> |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-controller="Product" asp-action="AddProduct" asp-route-id="@item.CompanyIdentificationNumber">Добвави продукт</a>
                 </td>
             </tr>
             //("Edit", "Edit", new { /* id=item.PrimaryKey */ }

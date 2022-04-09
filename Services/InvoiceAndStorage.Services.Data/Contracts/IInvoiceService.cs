@@ -1,14 +1,17 @@
 ﻿namespace InvoiceAndStorage.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Web.ViewModels.Invoice;
-    using System.Threading.Tasks;
 
     public interface IInvoiceService
     {
-        InvoiceViewModel GetAllInvoiceProducts(DatabaseОwner dbOwner);
+        Task<CreateInvoiceViewModel> GetAllInvoiceProducts(DatabaseОwner dbOwner);
 
-        Task<bool> AddInvoice(InvoiceViewModel invoiceViewModel, DatabaseОwner dbOwner, ApplicationUser user);
+        Task<(bool IsValid, string Error)> AddInvoice(CreateInvoiceViewModel product, string userId);
 
+        Task<ICollection<Product>> GetProducts(string dataOwnerId);
     }
 }

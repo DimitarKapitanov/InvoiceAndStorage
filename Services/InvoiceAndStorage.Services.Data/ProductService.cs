@@ -8,7 +8,6 @@
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
-    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using InvoiceAndStorage.Web.ViewModels.Product;
     using Microsoft.EntityFrameworkCore;
 

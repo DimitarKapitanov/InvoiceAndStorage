@@ -13,5 +13,7 @@
         Task<(bool IsValid, string Error)> AddInvoice(CreateInvoiceViewModel product, string userId);
 
         Task<ICollection<Product>> GetProducts(string dataOwnerId);
+
+        Task<AllInvoice> GetAllInvoice(string userId);
     }
 }

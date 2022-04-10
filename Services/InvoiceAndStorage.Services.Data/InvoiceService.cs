@@ -18,6 +18,8 @@
         private readonly IDataBaseOwnerService dataBaseOwnerService;
         private readonly IDeletableEntityRepository<Buyer> buyerRepository;
         private readonly IDeletableEntityRepository<Invoice> invoiceRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly IDeletableEntityRepository<DatabaseОwner> dbOwnerRepository;
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IDeletableEntityRepository<Supplier> supplierRepository;
 
@@ -28,7 +30,9 @@
             IDeletableEntityRepository<Supplier> supplierRepository,
             IDeletableEntityRepository<Product> productRepository,
             IDeletableEntityRepository<Buyer> buyerRepository,
-            IDeletableEntityRepository<Invoice> invoiceRepository)
+            IDeletableEntityRepository<Invoice> invoiceRepository,
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            IDeletableEntityRepository<DatabaseОwner> dbOwnerRepository)
         {
             this.supplierRepository = supplierRepository;
             this.buyerService = buyerService;
@@ -37,6 +41,8 @@
             this.productRepository = productRepository;
             this.buyerRepository = buyerRepository;
             this.invoiceRepository = invoiceRepository;
+            this.userRepository = userRepository;
+            this.dbOwnerRepository = dbOwnerRepository;
         }
 
         public async Task<(bool IsValid, string Error)> AddInvoice(CreateInvoiceViewModel product, string userId)
@@ -101,6 +107,8 @@
                 }
             }
 
+            currInvoice.TotalInvoiceSum *= 1.2M;
+
             isCreate = true;
 
             foreach (var item in updatedProduct)
@@ -109,9 +117,15 @@
                 this.buyerRepository.Update(buyer);
             }
 
+            var user = await this.userRepository.All().FirstOrDefaultAsync(x => x.Id == userId);
+
+            user.Invoices.Add(currInvoice);
+
+            await this.invoiceRepository.SaveChangesAsync();
+            this.userRepository.Update(user);
+            await this.userRepository.SaveChangesAsync();
             await this.buyerRepository.SaveChangesAsync();
             await this.productRepository.SaveChangesAsync();
-            await this.invoiceRepository.SaveChangesAsync();
 
             var invoice = this.invoiceRepository.All().Include(x => x.SoldProducts).Where(x => x.Id == x.SoldProducts.FirstOrDefault(y => y.InvoiceId == x.Id).InvoiceId).ToList();
 
@@ -180,6 +194,35 @@
                 .ToListAsync();
 
             return products;
+        }
+
+        public async Task<AllInvoice> GetAllInvoice(string userId)
+        {
+            var dbOwnerId = await this.dataBaseOwnerService.GetDatabaseОwner(userId);
+
+            var allInvoice = new AllInvoice();
+
+            var invoices = this.invoiceRepository
+                .All()
+                .Include(b => b.Buyer)
+                .ThenInclude(c => c.Company)
+                .Include(u => u.ApplicationUser)
+                .ToList()
+                .Select(x => new InvoiceViewModel()
+                {
+                    BuyerName = x.Buyer.Company.CompanyName,
+                    InvoiceDate = x.InvoiceDate,
+                    InvoiceNumber = x.Id,
+                    UserName = x.ApplicationUser.FirstName+ " " + x.ApplicationUser.LastName,
+                    TotalInvoiceSum = x.TotalInvoiceSum,
+                }).ToList();
+
+            foreach (var item in invoices)
+            {
+                allInvoice.InvoiceViewModels.Add(item);
+            }
+
+            return allInvoice;
         }
     }
 }

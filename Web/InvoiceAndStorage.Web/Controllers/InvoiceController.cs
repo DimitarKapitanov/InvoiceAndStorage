@@ -64,5 +64,14 @@
 
             return this.Redirect("/");
         }
+
+        public async Task<IActionResult> AllInvoice()
+        {
+            var userId = this.userManager.GetUserId(this.User);
+
+            var invoice = await this.invoiceService.GetAllInvoice(userId);
+
+            return this.View(invoice);
+        }
     }
 }

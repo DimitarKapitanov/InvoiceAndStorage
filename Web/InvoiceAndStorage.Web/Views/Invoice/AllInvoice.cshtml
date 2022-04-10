@@ -1,0 +1,49 @@
+﻿@model InvoiceAndStorage.Web.ViewModels.Invoice.AllInvoice
+
+@{
+    ViewData["Title"] = "AllInvoice";
+}
+
+<h1>AllInvoice</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Име на куповача</th>
+            <th>Дата на издаване</th>
+            <th>Номер на фактурата</th>
+            <th>Създана от</th>
+            <th>Стойност на фактурата</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.InvoiceViewModels)
+        {
+            <tr>
+                <td>
+                    <label asp-for="@item.BuyerName">@item.BuyerName</label>
+                </td>
+                <td>
+                    <label asp-for="@item.InvoiceDate">@item.InvoiceDate</label>
+                </td>
+                <td>
+                    <label asp-for="@item.InvoiceNumber">@item.InvoiceNumber</label>
+                </td>
+                <td>
+                    <label asp-for="@item.UserName">@item.UserName</label>
+                </td>
+                <td>
+                    <label asp-for="@item.TotalInvoiceSum">@item.TotalInvoiceSum</label>
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

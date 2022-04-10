@@ -1,24 +1,17 @@
 ﻿namespace InvoiceAndStorage.Web.ViewModels.Invoice
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using System;
 
     public class InvoiceViewModel
     {
-        public InvoiceViewModel()
-        {
-            this.InvoiceProductViewModels = new HashSet<InvoiceProductViewModel>();
-        }
+        public DateTime InvoiceDate { get; set; }
 
-        [Required]
-        public string BuyerIdentificationNumber { get; set; }
+        public string BuyerName { get; set; }
 
-        [Required]
-        public string PaymentMethod { get; set; }
+        public int InvoiceNumber { get; set; }
 
-        [Required]
-        public string InvoiceTipe { get; set; }
+        public string UserName { get; set; }
 
-        public ICollection<InvoiceProductViewModel> InvoiceProductViewModels { get; set; }
+        public decimal TotalInvoiceSum { get; set; }
     }
 }

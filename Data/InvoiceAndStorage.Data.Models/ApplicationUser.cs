@@ -16,6 +16,7 @@ namespace InvoiceAndStorage.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
+            this.Invoices = new HashSet<Invoice>();
         }
 
         [Required]
@@ -43,6 +44,8 @@ namespace InvoiceAndStorage.Data.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public ICollection<Invoice> Invoices { get; set; }
 
         public virtual ICollection<IdentityUserRole<string>> Roles { get; set; }
 

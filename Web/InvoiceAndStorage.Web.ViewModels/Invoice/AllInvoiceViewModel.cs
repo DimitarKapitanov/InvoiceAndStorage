@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class AllInvoice
+    public class AllInvoiceViewModel
     {
-        public AllInvoice()
+        public AllInvoiceViewModel()
         {
             this.InvoiceViewModels = new List<InvoiceViewModel>();
         }

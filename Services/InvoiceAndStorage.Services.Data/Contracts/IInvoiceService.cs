@@ -14,6 +14,6 @@
 
         Task<ICollection<Product>> GetProducts(string dataOwnerId);
 
-        Task<AllInvoice> GetAllInvoice(string userId);
+        Task<AllInvoiceViewModel> GetAllInvoice(string userId);
     }
 }

@@ -196,11 +196,11 @@
             return products;
         }
 
-        public async Task<AllInvoice> GetAllInvoice(string userId)
+        public async Task<AllInvoiceViewModel> GetAllInvoice(string userId)
         {
             var dbOwnerId = await this.dataBaseOwnerService.GetDatabaseОwner(userId);
 
-            var allInvoice = new AllInvoice();
+            var allInvoice = new AllInvoiceViewModel();
 
             var invoices = this.invoiceRepository
                 .All()

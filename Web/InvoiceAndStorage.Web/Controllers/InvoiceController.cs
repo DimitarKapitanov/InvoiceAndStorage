@@ -31,6 +31,11 @@
         [HttpGet]
         public async Task<IActionResult> CreateInvoice()
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/Identity/Account/Login");
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
             var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
@@ -52,6 +57,11 @@
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(CreateInvoiceViewModel createInvoiceModel)
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/Identity/Account/Login");
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
             var (isValid, error) = await this.invoiceService.AddInvoice(createInvoiceModel, userId);

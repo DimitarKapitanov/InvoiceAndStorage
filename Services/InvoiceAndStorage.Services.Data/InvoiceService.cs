@@ -127,8 +127,6 @@
             await this.buyerRepository.SaveChangesAsync();
             await this.productRepository.SaveChangesAsync();
 
-            var invoice = this.invoiceRepository.All().Include(x => x.SoldProducts).Where(x => x.Id == x.SoldProducts.FirstOrDefault(y => y.InvoiceId == x.Id).InvoiceId).ToList();
-
             return (isCreate, error);
         }
 
@@ -159,7 +157,8 @@
                         a.Name,
                         a.Amount,
                         a.Price,
-                    }).ToList()).ToListAsync();
+                    }).ToList())
+                .ToListAsync();
 
             var products = new CreateInvoiceViewModel
             {

@@ -67,6 +67,11 @@
 
         public async Task<IActionResult> AllInvoice()
         {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect("/Identity/Account/Login");
+            }
+
             var userId = this.userManager.GetUserId(this.User);
 
             var invoice = await this.invoiceService.GetAllInvoice(userId);

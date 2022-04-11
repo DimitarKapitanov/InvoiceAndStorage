@@ -39,9 +39,7 @@
                     <label asp-for="@item.TotalInvoiceSum">@item.TotalInvoiceSum</label>
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <a asp-controller="SoldProduct" asp-action="InvoiceSoldProducts" asp-route-id="@item.InvoiceNumber">Детайли по фактура</a>
                 </td>
             </tr>
         }

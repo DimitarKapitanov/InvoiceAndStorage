@@ -8,7 +8,7 @@
 
     public interface ISoldProductService
     {
-        Task<SoldProduct> CreateSoldProduct(InvoiceProductViewModel invoiceProductViewModel, int id);
+        Task<SoldProduct> CreateSoldProduct(Product invoiceProduct, int invoiceId, int quantity);
 
         Task<InvoiceSoldProductsViewModel> GetAllSoldProducts(int id);
     }

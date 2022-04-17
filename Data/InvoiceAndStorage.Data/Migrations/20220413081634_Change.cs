@@ -2,7 +2,7 @@
 {
     using Microsoft.EntityFrameworkCore.Migrations;
 
-    public partial class AddInvoiceColectionInUserTable : Migration
+    public partial class Change : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

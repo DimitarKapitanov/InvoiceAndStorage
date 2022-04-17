@@ -17,11 +17,11 @@
         public string Name { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0", "79228162514264337593543950335")]
+        [Range(typeof(decimal), "0m", "79228162514264337593543950335m")]
         public decimal Price { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]
+        [Range(1, 2147483647)]
         public int Amount { get; set; }
 
         public DateTime DeliveryDate { get; set; }

@@ -40,25 +40,25 @@
                 .All()
                 .FirstOrDefault(x => x.IdentificationNumber == identificationNumber);
 
-            if (company == null)
+            if (company != null)
             {
-                company = new Company
-                {
-                    IdentificationNumber = identificationNumber,
-                    BankName = bankName,
-                    BankAccount = bankAccount,
-                    BankCode = bankCode,
-                    CompanyName = companyName,
-                    CompanyOwner = companyOwner,
-                    VatNumber = $"BG{identificationNumber}",
-                    AdressId = await this.CreateAdress(countryName, cityName, streetName, streetNumber),
-                };
-
-                await this.companyRepository.AddAsync(company);
-                await this.companyRepository.SaveChangesAsync();
-
                 return company.Id;
             }
+
+            company = new Company
+            {
+                IdentificationNumber = identificationNumber,
+                BankName = bankName,
+                BankAccount = bankAccount,
+                BankCode = bankCode,
+                CompanyName = companyName,
+                CompanyOwner = companyOwner,
+                VatNumber = $"BG{identificationNumber}",
+                AdressId = await this.CreateAdress(countryName, cityName, streetName, streetNumber),
+            };
+
+            await this.companyRepository.AddAsync(company);
+            await this.companyRepository.SaveChangesAsync();
 
             return company.Id;
         }

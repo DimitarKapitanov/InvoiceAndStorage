@@ -31,6 +31,8 @@
 
         public async Task<bool> CreateBuyer(AddBuyerViewModel model, string userId, string dataOwner)
         {
+            var isCreate = false;
+
             var dbOwner = this.dataBaseOwner
                 .All()
                 .FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId).DatabaseОwnerId == dataOwner);
@@ -41,7 +43,6 @@
 
             var company = await this.companyServise.GetCompany(companyId);
 
-            var isCreate = false;
 
             if (buyer == null)
             {

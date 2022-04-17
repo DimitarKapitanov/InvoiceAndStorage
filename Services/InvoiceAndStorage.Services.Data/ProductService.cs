@@ -8,6 +8,7 @@
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
+    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using InvoiceAndStorage.Web.ViewModels.Product;
     using Microsoft.EntityFrameworkCore;
 
@@ -127,6 +128,25 @@
             }
 
             return allProducts;
+        }
+
+        public async Task<InvoiceProductViewModel> GetProductByName(string productName, int quantity)
+        {
+            var product = new InvoiceProductViewModel();
+
+            var dbProduct = await this.productRepository.All().FirstOrDefaultAsync(x => x.Name == productName);
+
+            if (dbProduct == null)
+            {
+                return null;
+            }
+
+            product.Amount = dbProduct.Amount.ToString();
+            product.Price = dbProduct.Price.ToString();
+            product.ProductName = dbProduct.Name;
+            product.Quantity = quantity;
+
+            return product;
         }
     }
 }

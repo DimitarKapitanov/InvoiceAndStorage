@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\InvoiceAndStorage.Data\InvoiceAndStorage.Data.csproj" />
     <ProjectReference Include="..\..\Services\InvoiceAndStorage.Services.Data\InvoiceAndStorage.Services.Data.csproj" />
+    <ProjectReference Include="..\InvoiceAndStorage.Services.Data.Common\InvoiceAndStorage.Services.Data.Common.csproj" />
   </ItemGroup>
 
 </Project>

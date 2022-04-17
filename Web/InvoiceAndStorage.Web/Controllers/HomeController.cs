@@ -3,8 +3,11 @@
     using System.Diagnostics;
 
     using InvoiceAndStorage.Web.ViewModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [AutoValidateAntiforgeryToken]
+    [Authorize]
     public class HomeController : BaseController
     {
         public IActionResult Index()

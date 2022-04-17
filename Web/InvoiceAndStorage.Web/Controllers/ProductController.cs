@@ -7,24 +7,27 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Product;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [AutoValidateAntiforgeryToken]
+    [Authorize]
     public class ProductController : BaseController
     {
         private readonly IProductService productService;
-        private readonly ISupplierSevice supplierSevice;
+        private readonly IValidViewModelsService validViewModelsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
 
         public ProductController(
             IProductService productService,
-            ISupplierSevice supplierSevice,
+            IValidViewModelsService validViewModelsService,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository)
         {
             this.productService = productService;
-            this.supplierSevice = supplierSevice;
+            this.validViewModelsService = validViewModelsService;
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
         }
@@ -32,6 +35,7 @@
         public IActionResult AddProduct()
         {
             var supplier = this.HttpContext.Request.RouteValues.Values.ToList();
+
             if (supplier.Count < 3)
             {
                 return this.RedirectToAction("AddProductWithoutVatNumber");
@@ -48,6 +52,14 @@
                 return this.View(addProductViewModel);
             }
 
+            var (isValid, error) = this.validViewModelsService.IsValidProductModel(addProductViewModel);
+
+            if (!isValid)
+            {
+                this.TempData["AddProduct"] = error;
+                return this.View(addProductViewModel);
+            }
+
             var supplier = this.HttpContext.Request.RouteValues.Values.ToList();
 
             string companyIdentificationNumber = supplier[2].ToString();
@@ -56,11 +68,11 @@
 
             if (!isCreated)
             {
-                this.TempData["AddProduct"] = $"Продуцт с такова име вече съществува";
+                this.TempData["AddProduct"] = $"Продукт с такова име вече съществува";
                 return this.View(addProductViewModel);
             }
 
-            return this.RedirectToAction("AllProducrs");
+            return this.RedirectToAction("AllProducts");
         }
 
         [HttpGet]
@@ -74,15 +86,15 @@
                 return this.View(addProductViewModel);
             }
 
-            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(addProductViewModel.CompanyIdentificationNumber);
+            var (isValid, error) = this.validViewModelsService.IsValidProductWithoutVatNumberModel(addProductViewModel);
 
-            if (supplier == null)
+            if (!isValid)
             {
-                this.TempData["AddProductWithoutVatNumber"] = $"Несъществува доставчик с посоченото ЕИК";
+                this.TempData["AddProduct"] = error;
                 return this.View(addProductViewModel);
             }
 
-            var isCreated = await this.productService.CreateProduct(addProductViewModel, supplier.Id);
+            var isCreated = await this.productService.CreateProduct(addProductViewModel, addProductViewModel.CompanyIdentificationNumber);
 
             if (!isCreated)
             {

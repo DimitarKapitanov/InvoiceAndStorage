@@ -8,34 +8,35 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Invoice;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
+    [AutoValidateAntiforgeryToken]
+    [Authorize]
     public class InvoiceController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IInvoiceService invoiceService;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
+        private readonly IProductService productService;
 
         public InvoiceController(
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository,
+            IProductService productService,
             IInvoiceService invoiceService)
         {
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
+            this.productService = productService;
             this.invoiceService = invoiceService;
         }
 
         [HttpGet]
         public async Task<IActionResult> CreateInvoice()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.Redirect("/Identity/Account/Login");
-            }
-
             var userId = this.userManager.GetUserId(this.User);
 
             var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
@@ -57,31 +58,32 @@
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(CreateInvoiceViewModel createInvoiceModel)
         {
-            if (!this.User.Identity.IsAuthenticated)
+            if (!this.ModelState.IsValid)
             {
-                return this.Redirect("/Identity/Account/Login");
+                return this.View(createInvoiceModel);
             }
 
             var userId = this.userManager.GetUserId(this.User);
+
+            var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
+
+            var dbOwner = await this.dataBaseOwnerRepository.All().FirstOrDefaultAsync(d => d.Id == user.DatabaseОwnerId);
+
+            var products = await this.invoiceService.GetAllInvoiceProducts(dbOwner);
 
             var (isValid, error) = await this.invoiceService.AddInvoice(createInvoiceModel, userId);
 
             if (!isValid)
             {
                 this.TempData["CreateInvoice"] = error;
-                return this.View("CreateInvoice", createInvoiceModel);
+                return this.View("CreateInvoice", products);
             }
 
-            return this.Redirect("/");
+            return this.Redirect("/Invoice/AllInvoice");
         }
 
         public async Task<IActionResult> AllInvoice()
         {
-            if (!this.User.Identity.IsAuthenticated)
-            {
-                return this.Redirect("/Identity/Account/Login");
-            }
-
             var userId = this.userManager.GetUserId(this.User);
 
             var invoice = await this.invoiceService.GetAllInvoice(userId);

@@ -7,8 +7,11 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data;
     using InvoiceAndStorage.Web.ViewModels.Settings;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [AutoValidateAntiforgeryToken]
+    [Authorize]
     public class SettingsController : BaseController
     {
         private readonly ISettingsService settingsService;

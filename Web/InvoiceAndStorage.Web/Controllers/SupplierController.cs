@@ -5,21 +5,27 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Supplier;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
+    [AutoValidateAntiforgeryToken]
+    [Authorize]
     public class SupplierController : BaseController
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IValidViewModelsService validViewModelsService;
         private readonly IDataBaseOwnerService databaseOwner;
         private readonly ISupplierSevice supplierSevice;
 
         public SupplierController(
             UserManager<ApplicationUser> userManager,
+            IValidViewModelsService validViewModelsService,
             IDataBaseOwnerService databaseOwner,
             ISupplierSevice supplierSevice)
         {
             this.userManager = userManager;
+            this.validViewModelsService = validViewModelsService;
             this.databaseOwner = databaseOwner;
             this.supplierSevice = supplierSevice;
         }
@@ -31,6 +37,14 @@
         {
             if (!this.ModelState.IsValid)
             {
+                return this.View(supplierViewModel);
+            }
+
+            var (isValid, error) = this.validViewModelsService.IsValidSupplierModel(supplierViewModel);
+
+            if (!isValid)
+            {
+                this.TempData["AddSuppliers"] = error;
                 return this.View(supplierViewModel);
             }
 

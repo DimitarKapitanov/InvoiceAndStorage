@@ -6,7 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="container">
+<div class="container embed-responsive">
     <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <h4>Създайте нов акаунт.</h4>
         <hr />
@@ -107,7 +107,6 @@
                     <input asp-for="Input.BankCode" class="form-control" />
                     <span asp-validation-for="Input.BankCode" class="text-danger"></span>
                 </div>
-
             </div>
             <button type="submit" class="btn btn-primary btn-lg btn-block">Регистрация</button>
         </div>

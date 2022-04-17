@@ -20,15 +20,15 @@
             this.soldProductRepository = soldProductRepository;
         }
 
-        public async Task<SoldProduct> CreateSoldProduct(InvoiceProductViewModel invoiceProductViewModel, int id)
+        public async Task<SoldProduct> CreateSoldProduct(Product invoiceProduct, int invoiceId, int quantity)
         {
             var soldProduct = new SoldProduct()
             {
-                ProductName = invoiceProductViewModel.ProductName,
-                Qantity = invoiceProductViewModel.Quantity,
-                SinglePrice = invoiceProductViewModel.Price,
-                InvoiceId = id,
-                TotalValue = invoiceProductViewModel.Quantity * invoiceProductViewModel.Price,
+                ProductName = invoiceProduct.Name,
+                Qantity = quantity,
+                SinglePrice = invoiceProduct.Price,
+                TotalValue = quantity * invoiceProduct.Price,
+                InvoiceId = invoiceId,
             };
 
             await this.soldProductRepository.AddAsync(soldProduct);
@@ -51,7 +51,6 @@
                     Quantity = x.Qantity,
                     TotalValue = x.TotalValue,
                     UnitPrice = x.SinglePrice,
-
                 }).OrderBy(x => x.ProductName)
                 .ToListAsync();
 

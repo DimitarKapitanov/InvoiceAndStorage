@@ -13,69 +13,70 @@
 
 <h4>Добавяне на нова фирма</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="container row embed-responsive d-flex">
+    <div class="col-md-4 flex-fill">
         <form asp-controller="Buyer" asp-action="AddBuyers" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CompanyIdentificationNumber" class="control-label"></label>
-                <input asp-for="CompanyIdentificationNumber" class="form-control" />
-                <span asp-validation-for="CompanyIdentificationNumber" class="text-danger"></span>
+            <div class="">
+                <div class="form-group">
+                    <label asp-for="CompanyIdentificationNumber" class="control-label"></label>
+                    <input asp-for="CompanyIdentificationNumber" class="form-control" />
+                    <span asp-validation-for="CompanyIdentificationNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanyName" class="control-label"></label>
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanyOwner" class="control-label"></label>
+                    <input asp-for="CompanyOwner" class="form-control" />
+                    <span asp-validation-for="CompanyOwner" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CountryName" class="control-label"></label>
+                    <input asp-for="CountryName" class="form-control" />
+                    <span asp-validation-for="CountryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CityName" class="control-label"></label>
+                    <input asp-for="CityName" class="form-control" />
+                    <span asp-validation-for="CityName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StreetName" class="control-label"></label>
+                    <input asp-for="StreetName" class="form-control" />
+                    <span asp-validation-for="StreetName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StreetNumber" class="control-label"></label>
+                    <input asp-for="StreetNumber" class="form-control" />
+                    <span asp-validation-for="StreetNumber" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CompanyName" class="control-label"></label>
-                <input asp-for="CompanyName" class="form-control" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
+            <div class="">
+                <div class="form-group">
+                    <label asp-for="BankName" class="control-label"></label>
+                    <input asp-for="BankName" class="form-control" />
+                    <span asp-validation-for="BankName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BankAccount" class="control-label"></label>
+                    <input asp-for="BankAccount" class="form-control" />
+                    <span asp-validation-for="BankAccount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BankCode" class="control-label"></label>
+                    <input asp-for="BankCode" class="form-control" />
+                    <span asp-validation-for="BankCode" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="CompanyOwner" class="control-label"></label>
-                <input asp-for="CompanyOwner" class="form-control" />
-                <span asp-validation-for="CompanyOwner" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BankName" class="control-label"></label>
-                <input asp-for="BankName" class="form-control" />
-                <span asp-validation-for="BankName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BankAccount" class="control-label"></label>
-                <input asp-for="BankAccount" class="form-control" />
-                <span asp-validation-for="BankAccount" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BankCode" class="control-label"></label>
-                <input asp-for="BankCode" class="form-control" />
-                <span asp-validation-for="BankCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CountryName" class="control-label"></label>
-                <input asp-for="CountryName" class="form-control" />
-                <span asp-validation-for="CountryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CityName" class="control-label"></label>
-                <input asp-for="CityName" class="form-control" />
-                <span asp-validation-for="CityName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StreetName" class="control-label"></label>
-                <input asp-for="StreetName" class="form-control" />
-                <span asp-validation-for="StreetName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StreetNumber" class="control-label"></label>
-                <input asp-for="StreetNumber" class="form-control" />
-                <span asp-validation-for="StreetNumber" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <input type="submit" value="Създай фирма" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -86,5 +87,5 @@
     setTimeout(function () {
         $('#newBuyer').hide('fade');
     }, 10000);
-</script> 
+</script>
 

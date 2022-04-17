@@ -4,7 +4,7 @@
 
 @{
     ViewData["Title"] = "CreateInvoice";
-   //this.Model.InvoiceProductViewModels = new List<InvoiceProductViewModel>();
+    //this.Model.InvoiceProductViewModels = new List<InvoiceProductViewModel>();
 }
 @if (TempData["CreateInvoice"] != null)
 {
@@ -37,8 +37,8 @@
             </div>
 
             <div class="flex-fill justify-content-center form-group">
-                <table>
-                    <thead>
+                <table class="table table-bordered table-condensed table-striped table-hover sortable">
+                    <thead class="table-dark">
                         <tr>
                             <td>
                                 <label class="control-label">Ине на продукта</label>
@@ -61,27 +61,27 @@
                                 <td>
                                     <div class="form-group">
                                         @*<label class="control-label" asp-for="InvoiceProductViewModels[i].ProductName"></label>*@
-                                        <input asp-for="InvoiceProductViewModels[i].ProductName" class="form-control" />
+                                        <input asp-for="InvoiceProductViewModels[i].ProductName" type="hidden"/>  
+                                        <span asp-validation-for="InvoiceProductViewModels[i].ProductName" class="text-danger"></span>
+                                        @Model.InvoiceProductViewModels[i].ProductName
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Amount"></label>*@
-                                        <input asp-for="InvoiceProductViewModels[i].Amount" class="form-control" />
+                                        @Model.InvoiceProductViewModels[i].Amount
 
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Price"></label>*@
-                                        <input asp-for="InvoiceProductViewModels[i].Price" class="form-control" />
+                                        @Model.InvoiceProductViewModels[i].Price
                                     </div>
                                 </td>
 
                                 <td>
                                     <div class="form-group">
-                                        @*<label class="control-label" asp-for="InvoiceProductViewModels[i].Quantity"></label>*@
-                                        <input asp-for="InvoiceProductViewModels[i].Quantity" class="form-control" />
+                                        <input asp-for="@Model.InvoiceProductViewModels[i].Quantity" class="form-control" asp-route-id="i" />
+                                        <span asp-validation-for="InvoiceProductViewModels[i].Quantity" class="text-danger"></span>
                                     </div>
                                 </td>
                             </tr>
@@ -97,9 +97,9 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
 
 <script>
     setTimeout(function () {

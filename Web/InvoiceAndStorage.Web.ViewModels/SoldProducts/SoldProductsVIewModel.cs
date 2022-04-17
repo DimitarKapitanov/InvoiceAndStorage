@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace InvoiceAndStorage.Web.ViewModels.SoldProducts
+﻿namespace InvoiceAndStorage.Web.ViewModels.SoldProducts
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class SoldProductsVIewModel
     {
         [Display(Name = "Име на продукта")]

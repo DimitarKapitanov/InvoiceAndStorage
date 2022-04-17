@@ -7,15 +7,15 @@
 
     public class CreateInvoiceViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително")]
         [Display(Name ="ЕИК на клиента")]
         public string BuyerIdentificationNumber { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително")]
         [Display(Name ="Начин на плащане")]
         public PaymentMethod PaymentMethod { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето {0} е задължително")]
         [Display(Name ="Вид на фактурата")]
         public InvoiceTipe InvoiceTipe { get; set; }
 

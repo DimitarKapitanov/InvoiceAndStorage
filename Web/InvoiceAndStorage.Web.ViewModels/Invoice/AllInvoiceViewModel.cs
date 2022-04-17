@@ -10,6 +10,5 @@
         }
 
         public IList<InvoiceViewModel> InvoiceViewModels { get; set; }
-
     }
 }

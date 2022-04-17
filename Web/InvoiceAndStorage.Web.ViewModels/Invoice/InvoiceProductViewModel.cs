@@ -6,16 +6,19 @@
     public class InvoiceProductViewModel
     {
         [Required]
+        [StringLength(30, MinimumLength = 2)]
+        [Display(Name = "Име на продукта")]
         public string ProductName { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue)]
-        public int Amount { get; set; }
+        [Display(Name = "Количество на склад")]
+        public string Amount { get; set; }
+
+        [Display(Name = "Единична цена")]
+        public string Price { get; set; }
 
         [Required]
-        [Range(typeof(decimal), "0", "79228162514264337593543950335")]
-        public decimal Price { get; set; }
-
+        [Range(0, int.MaxValue, ErrorMessage ="Количеството тярбва да е полужително число")]
+        [Display(Name ="Количество")]
         public int Quantity { get; set; }
     }
 }

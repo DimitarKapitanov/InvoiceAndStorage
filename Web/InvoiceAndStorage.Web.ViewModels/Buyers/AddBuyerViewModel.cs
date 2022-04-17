@@ -12,19 +12,20 @@
 
         [Required(ErrorMessage = "Полето {0} е задължително")]
         [Display(Name = "Име на фирмата")]
-        [StringLength(100, ErrorMessage = "{0} трябва да е между {2} и {1} символа", MinimumLength = 2)]
+        [StringLength(50, ErrorMessage = "{0} трябва да е между {2} и {1} символа", MinimumLength = 2)]
         public string CompanyName { get; set; }
 
         [Required(ErrorMessage = "Полето {0} е задължително")]
         [Display(Name = "Материално отговорно лице (Име и фамилия)")]
-        [RegularExpression(@"^[А-Я]{1}[а-я]{2,20}\s[А-Я]{1}[а-я]{2,20}$", ErrorMessage = "Дължината на името или фамилията трябва да е минимум дава и максимум двадесет символа започващ и с главна буква")]
+        [RegularExpression(@"^[А-Я]{1}[а-я]{2,20}\s[А-Я]{1}[а-я]{2,20}$", ErrorMessage = "Дължината на името или фамилията трябва да е между дава и двадесет символа")]
         public string CompanyOwner { get; set; }
 
         [Display(Name = "Име на банката")]
+        [MaxLength(50)]
         public string BankName { get; set; }
 
         [Display(Name = "Банкова сметка")]
-        [RegularExpression("^[BG]{2}[0-9]{2}[A-Z]{4}[0-9]{14}$", ErrorMessage = "Невалидна банкова сметка. Сметката трябва да започва с BG две цифри четири латински главни букви следвани от четиринадесет цифри от нула до девет")]
+        [RegularExpression("^[BG]{2}[0-9]{2}[A-Z]{4}[0-9]{14}$", ErrorMessage = "Невалидна банкова сметка.")]
         public string BankAccount { get; set; }
 
         [Display(Name = "Банков код")]

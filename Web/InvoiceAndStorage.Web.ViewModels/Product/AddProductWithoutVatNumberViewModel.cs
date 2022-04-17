@@ -22,7 +22,7 @@
 
         [Required(ErrorMessage = "Полето ЕИК е задължително")]
         [Display(Name ="ЕИК на фирмата")]
-        [RegularExpression("^([0-9]{9}|[0-9]{12})$", ErrorMessage = "{0} трябва да бъде между девет и дванадесет цифри")]
+        [RegularExpression("^([0-9]{9}|[0-9]{12})$", ErrorMessage = "{0} е невалидно")]
         public string CompanyIdentificationNumber { get; set; }
     }
 }

@@ -23,7 +23,7 @@
         public string BankName { get; set; }
 
         [Display(Name = "Банкова сметка")]
-        [RegularExpression(@"^[BG]{2}[0-9]{2}[A-Z]{4}[0-9]{14}$", ErrorMessage = "Невалидна банкова сметка. Сметката трябва да започва с BG две цифри четири латински главни букви следвани от четиринадесет цифри от нула до девет")]
+        [RegularExpression(@"^[BG]{2}[0-9]{2}[A-Z]{4}[0-9]{14}$", ErrorMessage = "Невалидна банкова сметка.")]
         public string BankAccount { get; set; }
 
         [Display(Name = "Банков код")]

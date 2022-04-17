@@ -32,7 +32,8 @@
             IDeletableEntityRepository<Buyer> buyerRepository,
             IDeletableEntityRepository<Invoice> invoiceRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository,
-            IDeletableEntityRepository<DatabaseОwner> dbOwnerRepository)
+            IDeletableEntityRepository<DatabaseОwner> dbOwnerRepository,
+            IDeletableEntityRepository<SoldProduct> soldProductRepository)
         {
             this.supplierRepository = supplierRepository;
             this.buyerService = buyerService;
@@ -45,10 +46,29 @@
             this.dbOwnerRepository = dbOwnerRepository;
         }
 
+        private static Invoice CreateInvoice(CreateInvoiceViewModel product, string userId, string buyerId, string dataOwnerId)
+        {
+            var invoice = new Invoice()
+            {
+                ApplicationUserId = userId,
+                BuyerId = buyerId,
+                DatabaseОwnerId = dataOwnerId,
+                InvoiceTipe = product.InvoiceTipe,
+                PaymentMethod = product.PaymentMethod,
+                DueDate = DateTime.UtcNow.Date,
+                InvoiceDate = DateTime.UtcNow.Date,
+                TotalInvoiceSum = default,
+            };
+
+            return invoice;
+        }
+
         public async Task<(bool IsValid, string Error)> AddInvoice(CreateInvoiceViewModel product, string userId)
         {
             var isCreate = false;
+
             var error = string.Empty;
+            var updatedProduct = new List<Product>();
 
             var dataOwnerId = await this.dataBaseOwnerService.GetDatabaseОwner(userId);
 
@@ -59,55 +79,50 @@
                 return (isCreate, error);
             }
 
-            var productForUpdate = await this.GetProducts(dataOwnerId);
-
             var buyer = await this.buyerService.GetBuyer(product.BuyerIdentificationNumber);
 
             if (buyer == null)
             {
-                error = $"Не е намерен куповач с това ЕИК: {buyer.Id}!";
+                error = $"Не е намерен куповач с това ЕИК: {product.BuyerIdentificationNumber}!";
 
                 return (isCreate, error);
             }
 
-            var currInvoice = await CreateInvoice(product, userId, buyer.Id, dataOwnerId);
+            var productForUpdate = await this.GetProducts(dataOwnerId);
 
+            var productList = product.InvoiceProductViewModels.Where(x => x.Quantity > 0).ToList();
+
+            var isValid = this.IsValidModel(productList, productForUpdate);
+
+            if (!isValid.IsValid && isValid.Error.Length > 0)
+            {
+                error = isValid.Error;
+                return (isCreate, error);
+            }
+
+            var currInvoice = CreateInvoice(product, userId, buyer.Id, dataOwnerId);
             await this.invoiceRepository.AddAsync(currInvoice);
             await this.invoiceRepository.SaveChangesAsync();
 
-            var updatedProduct = new List<Product>();
-
-            foreach (var products in productForUpdate)
+            foreach (var modelProduct in productList)
             {
-                foreach (var modelProduct in product.InvoiceProductViewModels.Where(x => x.Quantity > 0))
+                foreach (var products in productForUpdate.Where(x => x.Name == modelProduct.ProductName))
                 {
                     if (products.Name != modelProduct.ProductName)
                     {
                         continue;
                     }
 
-                    if (modelProduct.Quantity > products.Amount)
-                    {
-                        error = $"Желаното количество не може да надвишава текущото. Променете желаното количество на {modelProduct.ProductName}";
+                    var soldProduct = await this.soldProductService.CreateSoldProduct(products, currInvoice.Id, modelProduct.Quantity);
 
-                        return (isCreate, error);
-                    }
-                    else
-                    {
-                        var soldProduct = await this.soldProductService.CreateSoldProduct(modelProduct, currInvoice.Id);
+                    products.Amount -= modelProduct.Quantity;
+                    this.productRepository.Update(products);
 
-                        currInvoice.TotalInvoiceSum += modelProduct.Price * modelProduct.Quantity;
-                        this.invoiceRepository.Update(currInvoice);
-
-                        products.Amount -= modelProduct.Quantity;
-                        this.productRepository.Update(products);
-
-                        updatedProduct.Add(products);
-                    }
+                    updatedProduct.Add(products);
                 }
             }
 
-            currInvoice.TotalInvoiceSum *= 1.2M;
+            currInvoice.TotalInvoiceSum = currInvoice.SoldProducts.Sum(x => x.TotalValue) * 1.2M;
 
             isCreate = true;
 
@@ -130,21 +145,35 @@
             return (isCreate, error);
         }
 
-        private static Task<Invoice> CreateInvoice(CreateInvoiceViewModel product, string userId, string buyerId, string dataOwnerId)
+        private (bool IsValid, string Error) IsValidModel(List<InvoiceProductViewModel> productList, ICollection<Product> productForUpdate)
         {
-            var invoice = new Invoice()
-            {
-                ApplicationUserId = userId,
-                BuyerId = buyerId,
-                DatabaseОwnerId = dataOwnerId,
-                InvoiceTipe = product.InvoiceTipe,
-                PaymentMethod = product.PaymentMethod,
-                DueDate = DateTime.UtcNow.Date,
-                InvoiceDate = DateTime.UtcNow.Date,
-                TotalInvoiceSum = default,
-            };
+            var isValid = false;
+            string error = string.Empty;
 
-            return Task.FromResult(invoice);
+            foreach (var modelProduct in productList)
+            {
+                foreach (var products in productForUpdate.Where(x => x.Name == modelProduct.ProductName))
+                {
+                    if (products.Name != modelProduct.ProductName)
+                    {
+                        continue;
+                    }
+
+                    if (modelProduct.Quantity > products.Amount)
+                    {
+                        isValid = false;
+                        error = $"Желаното количество не може да надвишава текущото. Променете желаното количество на {modelProduct.ProductName}";
+
+                        return (isValid, error);
+                    }
+                    else
+                    {
+                        isValid = true;
+                    }
+                }
+            }
+
+            return (isValid, error);
         }
 
         public async Task<CreateInvoiceViewModel> GetAllInvoiceProducts(DatabaseОwner dbOwner)
@@ -172,8 +201,8 @@
                     var productViewModel = new InvoiceProductViewModel
                     {
                         ProductName = item.Name,
-                        Amount = item.Amount,
-                        Price = item.Price,
+                        Amount = item.Amount.ToString(),
+                        Price = item.Price.ToString(),
                         Quantity = default,
                     };
 
@@ -212,7 +241,7 @@
                     BuyerName = x.Buyer.Company.CompanyName,
                     InvoiceDate = x.InvoiceDate,
                     InvoiceNumber = x.Id,
-                    UserName = x.ApplicationUser.FirstName+ " " + x.ApplicationUser.LastName,
+                    UserName = x.ApplicationUser.FirstName + " " + x.ApplicationUser.LastName,
                     TotalInvoiceSum = x.TotalInvoiceSum,
                 }).ToList();
 

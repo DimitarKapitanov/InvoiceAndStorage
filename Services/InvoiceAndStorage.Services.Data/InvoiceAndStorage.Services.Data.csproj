@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\InvoiceAndStorage.Data.Common\InvoiceAndStorage.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\InvoiceAndStorage.Data.Models\InvoiceAndStorage.Data.Models.csproj" />
+    <ProjectReference Include="..\..\InvoiceAndStorage.Common\InvoiceAndStorage.Common.csproj" />
     <ProjectReference Include="..\..\Web\InvoiceAndStorage.Web.ViewModels\InvoiceAndStorage.Web.ViewModels.csproj" />
     <ProjectReference Include="..\InvoiceAndStorage.Services.Mapping\InvoiceAndStorage.Services.Mapping.csproj" />
   </ItemGroup>

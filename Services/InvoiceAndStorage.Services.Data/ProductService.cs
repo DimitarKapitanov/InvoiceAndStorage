@@ -28,9 +28,9 @@
             this.productRepository = productRepository;
         }
 
-        public async Task<bool> CreateProduct(AddProductViewModel addProductVewModel, string companyIdentificationNumber)
+        public async Task<bool> CreateProduct(AddProductViewModel addProductVewModel, string companyIdentificationNumber, string ownerId)
         {
-            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(companyIdentificationNumber);
+            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(companyIdentificationNumber, ownerId);
 
             var isValidProduct = await this.productRepository.All().AnyAsync(x => x.Name == addProductVewModel.Name);
 
@@ -65,11 +65,11 @@
         {
             var isCreated = false;
 
-            var supplier = await this.supplierRepository.All().FirstOrDefaultAsync(s => s.Id == supplierId);
+            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(supplierId, addProductVewModel.CompanyIdentificationNumber);
 
             var isValidProduct = await this.productRepository.All().AnyAsync(x => x.Name == addProductVewModel.Name);
 
-            if (isValidProduct)
+            if (!isValidProduct)
             {
                 return isCreated;
             }

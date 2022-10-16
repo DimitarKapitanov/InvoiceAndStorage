@@ -1,5 +1,6 @@
 ﻿namespace InvoiceAndStorage.Services.Data.Contracts
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -12,6 +13,8 @@
 
         Task<ICollection<SuppliersViewModel>> AllSuppliers(string dbOwnerId);
 
-        Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber);
+        Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber, string ownerId);
+
+        object GetSupplierByIdentificationNumber(Func<object, bool> p);
     }
 }

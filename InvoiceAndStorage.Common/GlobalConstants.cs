@@ -20,9 +20,7 @@
 
         public const string ValidCompanyOwner = @"^[А-Я]{1}[а-я]{2,20}\s[А-Я]{1}[а-я]{2,20}$";
 
-        public const string ValidBankCode = @"^[А-Z]{3}$";
-
-        public const string ValidBankName = @"[A-Za-zA-Яа-я. 0-9-]{5,40}";
+        public const string ValidBankName = @"[A-Za-zA-Яа-я. 0-9-]{3,40}";
 
         public const string ValidProductName = @"^[\w{IsCyrillic}\s]{2,30}$";
     }

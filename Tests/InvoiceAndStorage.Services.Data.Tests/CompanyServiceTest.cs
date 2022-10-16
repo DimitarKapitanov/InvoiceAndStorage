@@ -5,9 +5,9 @@
 
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Data.Repositories;
+    using InvoiceAndStorage.Services.Data.Common;
     using InvoiceAndStorage.Web.ViewModels.Buyers;
     using InvoiceAndStorage.Web.ViewModels.Supplier;
-    using InvoiceAndStorage.Services.Data.Common;
     using Xunit;
 
     public class CompanyServiceTest
@@ -65,8 +65,6 @@
             var adresRepository = new EfDeletableEntityRepository<Adress>(context);
             var companyService = new CompanyService(companyRepository, adresRepository);
 
-            //CreateCompany("Пешо ООД", "Ганчо Ганев", "111111111", "BG11AAAA12345678912345", "ДСК", "България", "Казанлък", "Раковски", 5, "ДСК")).Returns(Task<string>);
-
             var addBuyerViewModelCompany = new AddBuyerViewModel
             {
                 CompanyIdentificationNumber = "111111111",
@@ -101,7 +99,6 @@
                 },
             };
 
-
             await context.Companies.AddAsync(company);
             await context.SaveChangesAsync();
 
@@ -120,8 +117,6 @@
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adresRepository = new EfDeletableEntityRepository<Adress>(context);
             var companyService = new CompanyService(companyRepository, adresRepository);
-
-            //CreateCompany("Пешо ООД", "Ганчо Ганев", "111111111", "BG11AAAA12345678912345", "ДСК", "България", "Казанлък", "Раковски", 5, "ДСК")).Returns(Task<string>);
 
             var addSupplierViewModelCompany = new AddSupplierViewModel
             {
@@ -210,8 +205,6 @@
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adresRepository = new EfDeletableEntityRepository<Adress>(context);
             var companyService = new CompanyService(companyRepository, adresRepository);
-
-            //CreateCompany("Пешо ООД", "Ганчо Ганев", "111111111", "BG11AAAA12345678912345", "ДСК", "България", "Казанлък", "Раковски", 5, "ДСК")).Returns(Task<string>);
 
             var adress = new Adress()
             {

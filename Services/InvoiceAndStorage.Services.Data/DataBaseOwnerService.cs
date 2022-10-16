@@ -13,15 +13,18 @@
         private readonly IDeletableEntityRepository<DatabaseОwner> dbRepository;
         private readonly IDeletableEntityRepository<Company> companyRepository;
         private readonly IDeletableEntityRepository<Buyer> buyerRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
 
         public DataBaseOwnerService(
             IDeletableEntityRepository<DatabaseОwner> repository,
             IDeletableEntityRepository<Company> companyRepository,
-            IDeletableEntityRepository<Buyer> buyerRepository)
+            IDeletableEntityRepository<Buyer> buyerRepository,
+            IDeletableEntityRepository<ApplicationUser> applicationUserRepository)
         {
             this.dbRepository = repository;
             this.companyRepository = companyRepository;
             this.buyerRepository = buyerRepository;
+            this.applicationUserRepository = applicationUserRepository;
         }
 
         public async Task<string> AddBuyer(string buyerId, string databaseOwnerId)
@@ -72,11 +75,9 @@
 
         public async Task<string> GetDatabaseОwner(string userId)
         {
-            var owners = await this.dbRepository
-                .All()
-                .Select(x => x.ApplicationUsers.FirstOrDefault(i => i.Id == userId)).FirstOrDefaultAsync();
+            var user = await this.applicationUserRepository.All().FirstOrDefaultAsync(u => u.Id == userId);
 
-            var dbOwner = this.dbRepository.All().FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId).DatabaseОwnerId == owners.DatabaseОwnerId);
+            var dbOwner = this.dbRepository.All().FirstOrDefault(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId).DatabaseОwnerId == user.DatabaseОwnerId);
 
             return dbOwner.Id;
         }

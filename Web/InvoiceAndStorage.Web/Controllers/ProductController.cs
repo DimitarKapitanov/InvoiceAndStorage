@@ -19,17 +19,23 @@
         private readonly IValidViewModelsService validViewModelsService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
+        private readonly IDataBaseOwnerService dataBaseOwnerService;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
 
         public ProductController(
             IProductService productService,
             IValidViewModelsService validViewModelsService,
             UserManager<ApplicationUser> userManager,
-            IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository)
+            IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository,
+            IDataBaseOwnerService dataBaseOwnerService,
+            IDeletableEntityRepository<ApplicationUser> applicationUserRepository)
         {
             this.productService = productService;
             this.validViewModelsService = validViewModelsService;
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
+            this.dataBaseOwnerService = dataBaseOwnerService;
+            this.applicationUserRepository = applicationUserRepository;
         }
 
         public IActionResult AddProduct()
@@ -52,7 +58,10 @@
                 return this.View(addProductViewModel);
             }
 
-            var (isValid, error) = this.validViewModelsService.IsValidProductModel(addProductViewModel);
+            var user = this.userManager.GetUserId(this.User);
+            var ownerId = await this.dataBaseOwnerService.GetDatabaseОwner(user);
+
+            var (isValid, error) = this.validViewModelsService.IsValidProductModel(addProductViewModel, ownerId);
 
             if (!isValid)
             {
@@ -64,7 +73,7 @@
 
             string companyIdentificationNumber = supplier[2].ToString();
 
-            var isCreated = await this.productService.CreateProduct(addProductViewModel, companyIdentificationNumber);
+            var isCreated = await this.productService.CreateProduct(addProductViewModel, companyIdentificationNumber, ownerId);
 
             if (!isCreated)
             {
@@ -86,7 +95,10 @@
                 return this.View(addProductViewModel);
             }
 
-            var (isValid, error) = this.validViewModelsService.IsValidProductWithoutVatNumberModel(addProductViewModel);
+            var user = this.userManager.GetUserId(this.User);
+            var ownerId = await this.dataBaseOwnerService.GetDatabaseОwner(user);
+
+            var (isValid, error) = this.validViewModelsService.IsValidProductWithoutVatNumberModel(addProductViewModel, ownerId);
 
             if (!isValid)
             {
@@ -109,7 +121,7 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefault();
+            var user = this.applicationUserRepository.All().FirstOrDefault(u => u.Id == userId);
 
             var dbOwner = this.dataBaseOwnerRepository.All().FirstOrDefault(d => d.Id == user.DatabaseОwnerId);
 

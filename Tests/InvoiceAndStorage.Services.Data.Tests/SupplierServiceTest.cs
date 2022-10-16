@@ -1,16 +1,14 @@
-﻿using InvoiceAndStorage.Data.Models;
-using InvoiceAndStorage.Data.Repositories;
-using InvoiceAndStorage.Services.Data.Common;
-using InvoiceAndStorage.Web.ViewModels.Supplier;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace InvoiceAndStorage.Services.Data.Tests
+﻿namespace InvoiceAndStorage.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using InvoiceAndStorage.Data.Models;
+    using InvoiceAndStorage.Data.Repositories;
+    using InvoiceAndStorage.Services.Data.Common;
+    using InvoiceAndStorage.Web.ViewModels.Supplier;
+    using Xunit;
+
     public class SupplierServiceTest
     {
         [Fact]
@@ -25,7 +23,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
 
             var companyService = new CompanyService(companyRepository, adresRepository);
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
-
 
             var dbOwner = new DatabaseОwner()
             {
@@ -69,7 +66,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             var companyService = new CompanyService(companyRepository, adresRepository);
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
 
-
             var dbOwner = new DatabaseОwner()
             {
                 Id = "2",
@@ -100,7 +96,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             };
 
             await context.SaveChangesAsync();
-
 
             var isCreated = await supplireService.CreateSupplire(viewModel, "1", dbOwner.Id);
 

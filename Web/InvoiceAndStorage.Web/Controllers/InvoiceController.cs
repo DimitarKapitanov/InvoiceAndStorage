@@ -21,17 +21,20 @@
         private readonly IInvoiceService invoiceService;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
         private readonly IProductService productService;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
 
         public InvoiceController(
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository,
             IProductService productService,
-            IInvoiceService invoiceService)
+            IInvoiceService invoiceService,
+            IDeletableEntityRepository<ApplicationUser> applicationUserRepository)
         {
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
             this.productService = productService;
             this.invoiceService = invoiceService;
+            this.applicationUserRepository = applicationUserRepository;
         }
 
         [HttpGet]
@@ -39,7 +42,7 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
+            var user = await this.applicationUserRepository.All().FirstOrDefaultAsync(u => u.Id == userId);
 
             var dbOwner = await this.dataBaseOwnerRepository.All().FirstOrDefaultAsync(d => d.Id == user.DatabaseОwnerId);
 
@@ -65,7 +68,7 @@
 
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = await this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefaultAsync();
+            var user = await this.applicationUserRepository.All().FirstOrDefaultAsync(u => u.Id == userId);
 
             var dbOwner = await this.dataBaseOwnerRepository.All().FirstOrDefaultAsync(d => d.Id == user.DatabaseОwnerId);
 

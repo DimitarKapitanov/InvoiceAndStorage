@@ -5,9 +5,8 @@
 
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Data.Repositories;
-    using InvoiceAndStorage.Web.ViewModels.Buyers;
-    using InvoiceAndStorage.Web.ViewModels.Supplier;
     using InvoiceAndStorage.Services.Data.Common;
+    using InvoiceAndStorage.Web.ViewModels.Buyers;
     using Xunit;
 
     public class BuyerServiceTest
@@ -24,8 +23,6 @@
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-
-            //CreateCompany("Пешо ООД", "Ганчо Ганев", "111111111", "BG11AAAA12345678912345", "ДСК", "България", "Казанлък", "Раковски", 5, "ДСК")).Returns(Task<string>);
 
             var user = new ApplicationUser()
             {
@@ -113,8 +110,6 @@
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-
-            //CreateCompany("Пешо ООД", "Ганчо Ганев", "111111111", "BG11AAAA12345678912345", "ДСК", "България", "Казанлък", "Раковски", 5, "ДСК")).Returns(Task<string>);
 
             var addBuyerViewModelCompany = new AddBuyerViewModel
             {

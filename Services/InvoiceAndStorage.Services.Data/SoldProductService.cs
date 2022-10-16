@@ -60,8 +60,9 @@
             {
                 allSoldProducts.SoldProducts.Add(item);
             }
-
-            allSoldProducts.Vat = 20;
+            allSoldProducts.InvoiceNumber = id;
+            allSoldProducts.TotalSum += allSoldProducts.SoldProducts.Sum(x => x.TotalValue);
+            allSoldProducts.Vat = allSoldProducts.TotalSum * 0.2m;
             allSoldProducts.TotalValue = allSoldProducts.SoldProducts.Sum(x => x.TotalValue * 1.2m);
 
             return allSoldProducts;

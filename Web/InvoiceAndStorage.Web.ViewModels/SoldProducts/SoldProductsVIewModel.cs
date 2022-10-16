@@ -4,6 +4,7 @@
 
     public class SoldProductsVIewModel
     {
+
         [Display(Name = "Име на продукта")]
         public string ProductName { get; set; }
 

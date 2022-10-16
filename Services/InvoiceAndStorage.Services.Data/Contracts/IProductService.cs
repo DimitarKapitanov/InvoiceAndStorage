@@ -9,11 +9,12 @@
 
     public interface IProductService
     {
-        public Task<bool> CreateProduct(AddProductViewModel addProductVewModel, string supplierId);
+        public Task<bool> CreateProduct(AddProductViewModel addProductVewModel, string supplierId, string ownerId);
 
         public Task<bool> CreateProduct(AddProductWithoutVatNumberViewModel addProductVewModel, string supplierId);
 
         public Task<ICollection<ProductViewModel>> GetAllProducts(DatabaseОwner dbOwner);
+
         Task<InvoiceProductViewModel> GetProductByName(string productName, int quantity);
     }
 }

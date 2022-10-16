@@ -4,44 +4,51 @@
     ViewData["Title"] = "InvoiceSoldProducts";
 }
 
-<h1>Продукти по фактурата</h1>
+<h1>Продукти по фактура №@Model.InvoiceNumber</h1>
 
-    <table class="table table-responsive table-hover flex-fill" >
+<div class="container-xl">
+    <table class="table table-responsive-xl table-hover">
     <thead>
-        <tr>
-            <th>Име на продукта</th>
-            <th>Количество</th>
-            <th>Единична цена</th>
-            <th>Тотал</th>
+        <tr class="row">
+            <th class="col">Име на продукта</th>
+            <th class="col">Количество</th>
+            <th class="col">Единична цена</th>
+            <th class="col">Тотал</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.SoldProducts)
         {
-            <tr>
-                <td>
+            <tr class="row">
+                <td class="col">
                     <label asp-for="@item.ProductName">@item.ProductName</label>
                 </td>
-                <td>
+                <td class="col">
                     <label asp-for="@item.Quantity">@item.Quantity</label>
                 </td>
-                <td>
-                    <label asp-for="@item.UnitPrice">@item.UnitPrice</label>
+                <td class="col">
+                    <label asp-for="@item.UnitPrice">@item.UnitPrice.ToString("F2") лв.</label>
                 </td>
-                <td>
-                    <label asp-for="@item.TotalValue">@item.TotalValue</label>
+                <td class="col">
+                    <label asp-for="@item.TotalValue">@item.TotalValue.ToString("F2") лв.</label>
                 </td>
             </tr>
         }
-        <tr>
-            <td>ДДС</td>
-            <td>@Model.Vat %</td>
+        <tr class="row"> 
+            <td class="col-9 text-right">Сума без ДДС</td>
+            <td class="col-3">@Model.TotalSum.ToString("F2") лв.</td>
         </tr>
-        <tr>
-            <td>Сума с ДДС</td>
-            <td>@Model.TotalValue</td>
+        <tr class="row">
+            <td class="col-9 text-right">ДДС 20%</td>
+            <td class="col-3">@Model.Vat.ToString("F2") лв.</td>
+        </tr>
+        <tr class="row">
+            <td class="col-9 text-right">Сума с ДДС</td>
+            <td class="col-3">@Model.TotalValue.ToString("F2") лв.</td>
         </tr>
     </tbody>
 </table>
+</div>
+
 
 

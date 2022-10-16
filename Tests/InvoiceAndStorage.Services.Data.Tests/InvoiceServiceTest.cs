@@ -33,7 +33,7 @@
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUser);
             var soldProductService = new SoldProductService(soldProductRepository);
 
             var invoiceService = new InvoiceService(buyerService, soldProductService, dataBaseOwnerService, supplierRepository, productRepository, buyerRepository, invoiceRepository, applicationUser, dbOwnerRepository, soldProductRepository);
@@ -133,7 +133,7 @@
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUser);
             var soldProductService = new SoldProductService(soldProductRepository);
 
             var invoiceService = new InvoiceService(buyerService, soldProductService, dataBaseOwnerService, supplierRepository, productRepository, buyerRepository, invoiceRepository, applicationUser, dbOwnerRepository, soldProductRepository);
@@ -211,7 +211,7 @@
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUser);
             var soldProductService = new SoldProductService(soldProductRepository);
 
             var invoiceService = new InvoiceService(buyerService, soldProductService, dataBaseOwnerService, supplierRepository, productRepository, buyerRepository, invoiceRepository, applicationUser, dbOwnerRepository, soldProductRepository);
@@ -287,48 +287,5 @@
 
             Assert.NotNull(invoices);
         }
-
-        //[Fact]
-        //public async Task CreateInvoice_ByGiving()
-        //{
-        //    MapperInitializer.InitializeMapper();
-        //    var context = InitializeContext.CreateContextForInMemory();
-        //    var buyerRepository = new EfDeletableEntityRepository<Buyer>(context);
-        //    var companyRepository = new EfDeletableEntityRepository<Company>(context);
-        //    var adressRepository = new EfDeletableEntityRepository<Adress>(context);
-        //    var dbOwnerRepository = new EfDeletableEntityRepository<DatabaseОwner>(context);
-        //    var soldProductRepository = new EfDeletableEntityRepository<SoldProduct>(context);
-        //    var supplierRepository = new EfDeletableEntityRepository<Supplier>(context);
-        //    var productRepository = new EfDeletableEntityRepository<Product>(context);
-        //    var invoiceRepository = new EfDeletableEntityRepository<Invoice>(context);
-        //    var applicationUser = new EfDeletableEntityRepository<ApplicationUser>(context);
-
-        //    var companyService = new CompanyService(companyRepository, adressRepository);
-        //    var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-        //    var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
-        //    var soldProductService = new SoldProductService(soldProductRepository);
-
-        //    var invoiceService = new InvoiceService(buyerService, soldProductService, dataBaseOwnerService, supplierRepository, productRepository, buyerRepository, invoiceRepository, applicationUser, dbOwnerRepository, soldProductRepository);
-
-        //    MethodInfo methodInfo = typeof(InvoiceService)
-        //        .GetMethod(
-        //        "CreateInvoice",
-        //        BindingFlags.NonPublic| BindingFlags.Instance | BindingFlags.Static);
-
-        //    var viewModel = new CreateInvoiceViewModel()
-        //    {
-        //        BuyerIdentificationNumber = "111111111",
-        //        InvoiceProductViewModels = new List<InvoiceProductViewModel>(),
-        //        InvoiceTipe = InvoiceAndStorage.Data.Models.Enums.InvoiceTipe.Invoice,
-        //        PaymentMethod = InvoiceAndStorage.Data.Models.Enums.PaymentMethod.BankPayment,
-        //    };
-
-
-        //    object[] parameters = { "viewModel", "1", "A1", "B1"};
-
-        //    object result = methodInfo.Invoke(invoiceRepository, parameters);
-
-        //    Assert.True((bool)result);
-        //}
     }
 }

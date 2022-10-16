@@ -18,10 +18,11 @@
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adressRepository = new EfDeletableEntityRepository<Adress>(context);
             var dbOwnerRepository = new EfDeletableEntityRepository<DatabaseОwner>(context);
+            var applicationUserRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUserRepository);
 
             var dbOwner = new DatabaseОwner
             {
@@ -55,10 +56,11 @@
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adressRepository = new EfDeletableEntityRepository<Adress>(context);
             var dbOwnerRepository = new EfDeletableEntityRepository<DatabaseОwner>(context);
+            var applicationUserRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUserRepository);
 
             var user = new ApplicationUser()
             {
@@ -80,23 +82,22 @@
             await context.SaveChangesAsync();
 
             await dataBaseOwnerService.AddUser(user, dbOwner.Id);
-
         }
 
         [Fact]
         public async Task GetDatabaseОwner_ByGivingCompanyId_ShouldBeReturnDatabaseOwnerId()
         {
-
             MapperInitializer.InitializeMapper();
             var context = InitializeContext.CreateContextForInMemory();
             var buyerRepository = new EfDeletableEntityRepository<Buyer>(context);
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adressRepository = new EfDeletableEntityRepository<Adress>(context);
             var dbOwnerRepository = new EfDeletableEntityRepository<DatabaseОwner>(context);
+            var applicationUserRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUserRepository);
 
             var user = new ApplicationUser()
             {
@@ -131,10 +132,11 @@
             var companyRepository = new EfDeletableEntityRepository<Company>(context);
             var adressRepository = new EfDeletableEntityRepository<Adress>(context);
             var dbOwnerRepository = new EfDeletableEntityRepository<DatabaseОwner>(context);
+            var applicationUserRepository = new EfDeletableEntityRepository<ApplicationUser>(context);
 
             var companyService = new CompanyService(companyRepository, adressRepository);
             var buyerService = new BuyerService(buyerRepository, dbOwnerRepository, companyRepository, companyService);
-            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository);
+            var dataBaseOwnerService = new DataBaseOwnerService(dbOwnerRepository, companyRepository, buyerRepository, applicationUserRepository);
 
             var company = new Company
             {

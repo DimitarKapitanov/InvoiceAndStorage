@@ -8,10 +8,10 @@
     {
         public (bool IsValid, string Error) IsValidBuyerModel(AddBuyerViewModel model);
 
-        public (bool IsValid, string Error) IsValidSupplierModel(AddSupplierViewModel model);
+        public (bool IsValid, string Error) IsValidSupplierModel(AddSupplierViewModel model, string ownerId);
 
-        public (bool IsValid, string Error) IsValidProductModel(AddProductViewModel model);
+        public (bool IsValid, string Error) IsValidProductModel(AddProductViewModel model, string ownerId);
 
-        public (bool IsValid, string Error) IsValidProductWithoutVatNumberModel(AddProductWithoutVatNumberViewModel model);
+        public (bool IsValid, string Error) IsValidProductWithoutVatNumberModel(AddProductWithoutVatNumberViewModel model, string ownerId);
     }
 }

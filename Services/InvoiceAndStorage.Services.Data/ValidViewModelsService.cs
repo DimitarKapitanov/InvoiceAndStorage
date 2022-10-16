@@ -16,16 +16,26 @@
     public class ValidViewModelsService : IValidViewModelsService
     {
         private readonly ISupplierSevice supplierSevice;
+        private readonly IBuyerService buyerService;
 
-        public ValidViewModelsService(ISupplierSevice supplierSevice)
+        public ValidViewModelsService(ISupplierSevice supplierSevice, IBuyerService buyerService)
         {
             this.supplierSevice = supplierSevice;
+            this.buyerService = buyerService;
         }
 
         public (bool IsValid, string Error) IsValidBuyerModel(AddBuyerViewModel model)
         {
             bool isValid = false;
             string error = string.Empty;
+
+            var buyer = this.buyerService.GetBuyer(model.CompanyIdentificationNumber);
+
+            if (buyer != null)
+            {
+                error = $"Купувач с ЕИК {model.CompanyIdentificationNumber} вече съществува.";
+                return (isValid, error);
+            }
 
             if (!Regex.IsMatch(model.StreetName, GlobalConstants.ValiStreet))
             {
@@ -75,11 +85,11 @@
                 return (isValid, error);
             }
 
-            if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
-            {
-                error = $"Невалиден банков код";
-                return (isValid, error);
-            }
+            //if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
+            //{
+            //    error = $"Невалиден банков код";
+            //    return (isValid, error);
+            //}
 
             if (!Regex.IsMatch(model.BankName, GlobalConstants.ValidBankName))
             {
@@ -92,7 +102,7 @@
             return (isValid, error);
         }
 
-        public (bool IsValid, string Error) IsValidProductModel(AddProductViewModel model)
+        public (bool IsValid, string Error) IsValidProductModel(AddProductViewModel model, string ownerId)
         {
             bool isValid = false;
             string error = string.Empty;
@@ -126,7 +136,7 @@
             return (isValid, error);
         }
 
-        public (bool IsValid, string Error) IsValidProductWithoutVatNumberModel(AddProductWithoutVatNumberViewModel model)
+        public (bool IsValid, string Error) IsValidProductWithoutVatNumberModel(AddProductWithoutVatNumberViewModel model, string ownerId)
         {
             bool isValid = false;
             string error = string.Empty;
@@ -137,11 +147,11 @@
                 return (isValid, error);
             }
 
-            var supplier = this.supplierSevice.GetSupplierByIdentificationNumber(model.CompanyIdentificationNumber);
+            var supplier = this.supplierSevice.GetSupplierByIdentificationNumber(model.CompanyIdentificationNumber, ownerId).GetAwaiter().GetResult();
 
             if (supplier == null)
             {
-                error = $"Несъществува доставчик с посоченото ЕИК";
+                error = $"Несъществува доставчик с ЕИК {model.CompanyIdentificationNumber}";
                 return (isValid, error);
             }
 
@@ -174,10 +184,18 @@
             return (isValid, error);
         }
 
-        public (bool IsValid, string Error) IsValidSupplierModel(AddSupplierViewModel model)
+        public (bool IsValid, string Error) IsValidSupplierModel(AddSupplierViewModel model, string ownerId)
         {
             bool isValid = false;
             string error = string.Empty;
+
+            var supplier = this.supplierSevice.GetSupplierByIdentificationNumber(model.CompanyIdentificationNumber, ownerId).GetAwaiter().GetResult();
+
+            if (supplier != null)
+            {
+                error = $"Доставчик с ЕИК {model.CompanyIdentificationNumber} вече съществува";
+                return (isValid, error);
+            }
 
             if (!Regex.IsMatch(model.StreetName, GlobalConstants.ValiStreet))
             {
@@ -205,7 +223,7 @@
 
             if (!Regex.IsMatch(model.CompanyName, GlobalConstants.ValidCompanyName))
             {
-                error = $"Невалидна фирма";
+                error = $"Невалидно име на фирма";
                 return (isValid, error);
             }
 
@@ -227,11 +245,11 @@
                 return (isValid, error);
             }
 
-            if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
-            {
-                error = $"Невалиден банков код";
-                return (isValid, error);
-            }
+            //if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
+            //{
+            //    error = $"Невалиден банков код";
+            //    return (isValid, error);
+            //}
 
             if (!Regex.IsMatch(model.BankName, GlobalConstants.ValidBankName))
             {

@@ -1,13 +1,13 @@
 ﻿@model InvoiceAndStorage.Web.ViewModels.Invoice.AllInvoiceViewModel
 
 @{
-    ViewData["Title"] = "AllInvoice";
+    ViewData["Title"] = "Издадени фактури";
 }
 
-<h1>AllInvoice</h1>
+<h1>Издадени фактури</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="CreateInvoice" class="btn btn-primary">Създай нова фактура</a>
 </p>
 <table class="table">
     <thead>
@@ -27,7 +27,7 @@
                     <label asp-for="@item.BuyerName">@item.BuyerName</label>
                 </td>
                 <td>
-                    <label asp-for="@item.InvoiceDate">@item.InvoiceDate</label>
+                    <label asp-for="@item.InvoiceDate">@item.InvoiceDate.ToString("dd.MM.yyyy")</label>
                 </td>
                 <td>
                     <label asp-for="@item.InvoiceNumber">@item.InvoiceNumber</label>
@@ -36,10 +36,10 @@
                     <label asp-for="@item.UserName">@item.UserName</label>
                 </td>
                 <td>
-                    <label asp-for="@item.TotalInvoiceSum">@item.TotalInvoiceSum</label>
+                    <label asp-for="@item.TotalInvoiceSum">@item.TotalInvoiceSum.ToString("F2")</label>
                 </td>
                 <td>
-                    <a asp-controller="SoldProduct" asp-action="InvoiceSoldProducts" asp-route-id="@item.InvoiceNumber">Детайли по фактура</a>
+                    <a asp-controller="SoldProduct" asp-action="InvoiceSoldProducts" asp-route-id="@item.InvoiceNumber" class="btn btn-primary">Детайли по фактура</a>
                 </td>
             </tr>
         }

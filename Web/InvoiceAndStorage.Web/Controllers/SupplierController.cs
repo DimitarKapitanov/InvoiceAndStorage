@@ -40,7 +40,10 @@
                 return this.View(supplierViewModel);
             }
 
-            var (isValid, error) = this.validViewModelsService.IsValidSupplierModel(supplierViewModel);
+            var user = this.userManager.GetUserId(this.User);
+            var ownerId = await this.databaseOwner.GetDatabaseОwner(user);
+
+            var (isValid, error) = this.validViewModelsService.IsValidSupplierModel(supplierViewModel, ownerId);
 
             if (!isValid)
             {
@@ -48,11 +51,7 @@
                 return this.View(supplierViewModel);
             }
 
-            var user = this.userManager.GetUserId(this.User);
-
-            var owner = await this.databaseOwner.GetDatabaseОwner(user);
-
-            var isCreate = await this.supplierSevice.CreateSupplire(supplierViewModel, user, owner);
+            var isCreate = await this.supplierSevice.CreateSupplire(supplierViewModel, user, ownerId);
 
             if (!isCreate)
             {

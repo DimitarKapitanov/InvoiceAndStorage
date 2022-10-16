@@ -1,5 +1,6 @@
 ﻿namespace InvoiceAndStorage.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -89,13 +90,19 @@
             return allSuppliers;
         }
 
-        public async Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber)
+        public async Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber, string ownerId)
         {
             var supplier = await this.supplierRepository
                 .All()
+                .Where(x => x.DatabaseОwnerId == ownerId)
                 .FirstOrDefaultAsync(x => x.Company.IdentificationNumber == identificationNumber);
 
             return supplier;
+        }
+
+        public object GetSupplierByIdentificationNumber(Func<object, bool> p)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

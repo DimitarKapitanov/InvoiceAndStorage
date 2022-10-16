@@ -10,8 +10,13 @@
             this.SoldProducts = new List<SoldProductsVIewModel>();
         }
 
+        public int InvoiceNumber { get; set; }
+
+        [Display(Name = "Сума без ДДС")]
+        public decimal TotalSum { get; set; }
+
         [Display(Name ="ДДС")]
-        public int Vat { get; set; }
+        public decimal Vat { get; set; }
 
         [Display(Name = "Сума с ДДС")]
         public decimal TotalValue { get; set; }

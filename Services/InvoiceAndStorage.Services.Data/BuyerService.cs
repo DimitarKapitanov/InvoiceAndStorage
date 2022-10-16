@@ -43,7 +43,6 @@
 
             var company = await this.companyServise.GetCompany(companyId);
 
-
             if (buyer == null)
             {
                 buyer = new Buyer

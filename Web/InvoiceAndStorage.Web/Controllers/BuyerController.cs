@@ -20,19 +20,22 @@
         private readonly IDataBaseOwnerService databaseOwner;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> applicationUserRepository;
 
         public BuyerController(
             IBuyerService buyerService,
             IDataBaseOwnerService databaseOwner,
             UserManager<ApplicationUser> userManager,
             IDeletableEntityRepository<DatabaseОwner> dataBaseOwnerRepository,
-            IValidViewModelsService validViewModelsService)
+            IValidViewModelsService validViewModelsService,
+            IDeletableEntityRepository<ApplicationUser> applicationUserRepository)
         {
             this.buyerService = buyerService;
             this.databaseOwner = databaseOwner;
             this.userManager = userManager;
             this.dataBaseOwnerRepository = dataBaseOwnerRepository;
             this.validViewModelsService = validViewModelsService;
+            this.applicationUserRepository = applicationUserRepository;
         }
 
         [HttpGet]
@@ -78,11 +81,9 @@
         {
             var userId = this.userManager.GetUserId(this.User);
 
-            var user = this.dataBaseOwnerRepository.All().Select(x => x.ApplicationUsers.FirstOrDefault(u => u.Id == userId)).FirstOrDefault();
+            var user = this.applicationUserRepository.All().FirstOrDefault(u => u.Id == userId);
 
-            var dbOwner = this.dataBaseOwnerRepository.All().FirstOrDefault(d => d.Id == user.DatabaseОwnerId);
-
-            var buyers = await this.buyerService.All(dbOwner.Id);
+            var buyers = await this.buyerService.All(this.dataBaseOwnerRepository.All().FirstOrDefault(d => d.Id == user.DatabaseОwnerId).Id);
 
             return this.View("All", buyers);
         }

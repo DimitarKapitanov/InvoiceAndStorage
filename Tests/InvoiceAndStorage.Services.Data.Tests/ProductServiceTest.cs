@@ -1,14 +1,15 @@
-﻿using InvoiceAndStorage.Data.Models;
-using InvoiceAndStorage.Data.Repositories;
-using InvoiceAndStorage.Services.Data.Common;
-using InvoiceAndStorage.Web.ViewModels.Product;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace InvoiceAndStorage.Services.Data.Tests
+﻿namespace InvoiceAndStorage.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using InvoiceAndStorage.Data.Models;
+    using InvoiceAndStorage.Data.Repositories;
+    using InvoiceAndStorage.Services.Data.Common;
+    using InvoiceAndStorage.Web.ViewModels.Product;
+    using Xunit;
+
     public class ProductServiceTest
     {
         [Fact]
@@ -26,7 +27,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
 
             var productService = new ProductService(supplireService, supplireRepository, productRepository);
-            //AddProductViewModel addProductVewModel, string companyIdentificationNumber
 
             var productViewModel = new AddProductViewModel()
             {
@@ -67,7 +67,7 @@ namespace InvoiceAndStorage.Services.Data.Tests
             await context.Companies.AddAsync(company);
             await context.SaveChangesAsync();
 
-            var isCreated = await productService.CreateProduct(productViewModel, "111111111");
+            var isCreated = await productService.CreateProduct(productViewModel, "111111111", "2");
 
             Assert.True(isCreated);
 
@@ -83,7 +83,7 @@ namespace InvoiceAndStorage.Services.Data.Tests
             await context.Products.AddAsync(product);
             await context.SaveChangesAsync();
 
-            isCreated = await productService.CreateProduct(productViewModel, "111111111");
+            isCreated = await productService.CreateProduct(productViewModel, "111111111", "2");
 
             Assert.False(isCreated);
         }
@@ -103,7 +103,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
 
             var productService = new ProductService(supplireService, supplireRepository, productRepository);
-            //AddProductViewModel addProductVewModel, string companyIdentificationNumber
 
             var productViewModel = new AddProductWithoutVatNumberViewModel()
             {
@@ -181,7 +180,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
 
             var productService = new ProductService(supplireService, supplireRepository, productRepository);
-            //AddProductViewModel addProductVewModel, string companyIdentificationNumber
 
             var productViewModel = new AddProductWithoutVatNumberViewModel()
             {
@@ -293,7 +291,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             var supplireService = new SupplireService(dbOwnerRepository, companyService, companyRepository, supplireRepository);
 
             var productService = new ProductService(supplireService, supplireRepository, productRepository);
-            //AddProductViewModel addProductVewModel, string companyIdentificationNumber
 
             var product = new Product()
             {
@@ -307,7 +304,6 @@ namespace InvoiceAndStorage.Services.Data.Tests
             await context.Products.AddAsync(product);
 
             await context.SaveChangesAsync();
-
 
             var productByName = await productService.GetProductByName("Banan", 5);
 

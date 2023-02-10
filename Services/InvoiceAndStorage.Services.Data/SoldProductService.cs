@@ -1,13 +1,11 @@
 ﻿namespace InvoiceAndStorage.Services.Data
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
     using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Services.Data.Contracts;
-    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using InvoiceAndStorage.Web.ViewModels.SoldProducts;
     using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +43,7 @@
                 .Include(i => i.Invoice)
                 .ThenInclude(b => b.Buyer)
                 .ThenInclude(c => c.Company)
-                .Select(x => new SoldProductsVIewModel()
+                .Select(x => new SoldProductsViewModel()
                 {
                     ProductName = x.ProductName,
                     Quantity = x.Qantity,
@@ -60,6 +58,7 @@
             {
                 allSoldProducts.SoldProducts.Add(item);
             }
+
             allSoldProducts.InvoiceNumber = id;
             allSoldProducts.TotalSum += allSoldProducts.SoldProducts.Sum(x => x.TotalValue);
             allSoldProducts.Vat = allSoldProducts.TotalSum * 0.2m;

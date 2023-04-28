@@ -2,12 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using InvoiceAndStorage.Data.Common.Repositories;
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Data.Repositories;
     using InvoiceAndStorage.Services.Data.Common;
+    using InvoiceAndStorage.Services.Data.Contracts;
     using InvoiceAndStorage.Web.ViewModels.Product;
+    using Moq;
     using Xunit;
 
     public class ProductServiceTest
@@ -312,6 +316,33 @@
             productByName = await productService.GetProductByName("Banana", 5);
 
             Assert.Null(productByName);
+        }
+
+        [Fact]
+        public async Task CreateProduct_ReturnsTrue()
+        {
+            // Arrange
+            var addProductViewModel = new AddProductWithoutVatNumberViewModel
+            {
+                Amount = 1,
+                CompanyIdentificationNumber = "123456789",
+                Name = "Product 1",
+                Price = 10,
+            };
+            var supplierId = "supplier-id";
+            var supplierServiceMock = new Mock<ISupplierService>();
+            var productRepositoryMock = new Mock<IDeletableEntityRepository<Product>>();
+            var supplierRepositoryMock = new Mock<IDeletableEntityRepository<Supplier>>();
+            var supplier = new Supplier { IdentificationNumber = "123456789", Products = new List<Product>() };
+            supplierServiceMock.Setup(x => x.GetSupplierByIdentificationNumber(supplierId, addProductViewModel.CompanyIdentificationNumber)).ReturnsAsync(supplier);
+            productRepositoryMock.Setup(x => x.All()).Returns(new List<Product>().AsQueryable());
+            var sut = new ProductService((ISupplierService)productRepositoryMock.Object, (IDeletableEntityRepository<Supplier>)supplierServiceMock.Object, (IDeletableEntityRepository<Product>)supplierRepositoryMock.Object);
+
+            // Act
+            var result = await sut.CreateProduct(addProductViewModel, supplierId);
+
+            // Assert
+            Assert.False(result);
         }
     }
 }

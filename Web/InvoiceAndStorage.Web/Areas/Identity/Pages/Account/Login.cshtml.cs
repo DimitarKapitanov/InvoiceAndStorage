@@ -1,4 +1,4 @@
-﻿namespace InvoiceAndStorage.Web.Areas.Identity.Pages.Account
+﻿ namespace InvoiceAndStorage.Web.Areas.Identity.Pages.Account
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

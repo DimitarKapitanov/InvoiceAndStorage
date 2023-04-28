@@ -4,7 +4,7 @@
     ViewData["Title"] = "Издадени фактури";
 }
 
-<h1>Издадени фактури</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="CreateInvoice" class="btn btn-primary">Създай нова фактура</a>
@@ -17,28 +17,29 @@
             <th>Номер на фактурата</th>
             <th>Създана от</th>
             <th>Стойност на фактурата</th>
+            <th>Детайли</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.InvoiceViewModels)
         {
             <tr>
-                <td>
+                <td class="table_data_text_color">
                     <label asp-for="@item.BuyerName">@item.BuyerName</label>
                 </td>
-                <td>
+                <td class ="table_data_text_color">
                     <label asp-for="@item.InvoiceDate">@item.InvoiceDate.ToString("dd.MM.yyyy")</label>
                 </td>
-                <td>
+                <td class="table_data_text_color">
                     <label asp-for="@item.InvoiceNumber">@item.InvoiceNumber</label>
                 </td>
-                <td>
+                <td class="table_data_text_color">
                     <label asp-for="@item.UserName">@item.UserName</label>
                 </td>
-                <td>
+                <td class="table_data_text_color">
                     <label asp-for="@item.TotalInvoiceSum">@item.TotalInvoiceSum.ToString("F2")</label>
                 </td>
-                <td>
+                <td class="table_data_text_color">
                     <a asp-controller="SoldProduct" asp-action="InvoiceSoldProducts" asp-route-id="@item.InvoiceNumber" class="btn btn-primary">Детайли по фактура</a>
                 </td>
             </tr>

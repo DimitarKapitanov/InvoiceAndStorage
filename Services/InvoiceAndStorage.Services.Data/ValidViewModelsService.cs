@@ -15,10 +15,10 @@
 
     public class ValidViewModelsService : IValidViewModelsService
     {
-        private readonly ISupplierSevice supplierSevice;
+        private readonly ISupplierService supplierSevice;
         private readonly IBuyerService buyerService;
 
-        public ValidViewModelsService(ISupplierSevice supplierSevice, IBuyerService buyerService)
+        public ValidViewModelsService(ISupplierService supplierSevice, IBuyerService buyerService)
         {
             this.supplierSevice = supplierSevice;
             this.buyerService = buyerService;
@@ -84,12 +84,6 @@
                 error = $"Невалидна банкова сметка";
                 return (isValid, error);
             }
-
-            //if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
-            //{
-            //    error = $"Невалиден банков код";
-            //    return (isValid, error);
-            //}
 
             if (!Regex.IsMatch(model.BankName, GlobalConstants.ValidBankName))
             {
@@ -245,12 +239,11 @@
                 return (isValid, error);
             }
 
-            //if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
-            //{
+            // if (!Regex.IsMatch(model.BankCode, GlobalConstants.ValidBankCode))
+            // {
             //    error = $"Невалиден банков код";
             //    return (isValid, error);
-            //}
-
+            // }
             if (!Regex.IsMatch(model.BankName, GlobalConstants.ValidBankName))
             {
                 error = $"Невалидно име на банка";

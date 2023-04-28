@@ -16,10 +16,10 @@
     {
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IDeletableEntityRepository<Supplier> supplierRepository;
-        private readonly ISupplierSevice supplierSevice;
+        private readonly ISupplierService supplierSevice;
 
         public ProductService(
-            ISupplierSevice supplierSevice,
+            ISupplierService supplierSevice,
             IDeletableEntityRepository<Supplier> supplierRepository,
             IDeletableEntityRepository<Product> productRepository)
         {
@@ -65,11 +65,9 @@
         {
             var isCreated = false;
 
-            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(supplierId, addProductVewModel.CompanyIdentificationNumber);
+            var supplier = await this.supplierSevice.GetSupplierByIdentificationNumber(addProductVewModel.CompanyIdentificationNumber, supplierId);
 
-            var isValidProduct = await this.productRepository.All().AnyAsync(x => x.Name == addProductVewModel.Name);
-
-            if (!isValidProduct)
+            if (supplier == null)
             {
                 return isCreated;
             }

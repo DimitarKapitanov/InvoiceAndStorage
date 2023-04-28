@@ -106,7 +106,7 @@
                 return this.View(addProductViewModel);
             }
 
-            var isCreated = await this.productService.CreateProduct(addProductViewModel, addProductViewModel.CompanyIdentificationNumber);
+            var isCreated = await this.productService.CreateProduct(addProductViewModel, ownerId);
 
             if (!isCreated)
             {

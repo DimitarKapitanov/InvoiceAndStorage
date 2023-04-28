@@ -1,6 +1,8 @@
 ﻿namespace InvoiceAndStorage.Data.Models
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,5 +36,9 @@
         public string BuyerId { get; set; }
 
         public Buyer Buyer { get; set; }
+
+        public string DatabaseОwnerId { get; set; }
+
+        public virtual ICollection<DatabaseОwnersProducts> DatabaseОwnersProducts { get; set; }
     }
 }

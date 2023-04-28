@@ -16,13 +16,13 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IValidViewModelsService validViewModelsService;
         private readonly IDataBaseOwnerService databaseOwner;
-        private readonly ISupplierSevice supplierSevice;
+        private readonly ISupplierService supplierSevice;
 
         public SupplierController(
             UserManager<ApplicationUser> userManager,
             IValidViewModelsService validViewModelsService,
             IDataBaseOwnerService databaseOwner,
-            ISupplierSevice supplierSevice)
+            ISupplierService supplierSevice)
         {
             this.userManager = userManager;
             this.validViewModelsService = validViewModelsService;

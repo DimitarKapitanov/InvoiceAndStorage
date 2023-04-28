@@ -3,15 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Threading.Tasks;
 
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Data.Repositories;
-    using InvoiceAndStorage.Web.ViewModels.Buyers;
-    using InvoiceAndStorage.Web.ViewModels.Invoice;
-    using InvoiceAndStorage.Web.ViewModels.Supplier;
     using InvoiceAndStorage.Services.Data.Common;
+    using InvoiceAndStorage.Web.ViewModels.Invoice;
     using Xunit;
 
     public class InvoiceServiceTest

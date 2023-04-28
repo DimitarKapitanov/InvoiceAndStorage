@@ -68,7 +68,7 @@
             services.AddTransient<ICompanyServise, CompanyService>();
             services.AddTransient<IDataBaseOwnerService, DataBaseOwnerService>();
             services.AddTransient<IBuyerService, BuyerService>();
-            services.AddTransient<ISupplierSevice, SupplireService>();
+            services.AddTransient<ISupplierService, SupplireService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IInvoiceService, InvoiceService>();
             services.AddTransient<ISoldProductService, SoldProductService>();

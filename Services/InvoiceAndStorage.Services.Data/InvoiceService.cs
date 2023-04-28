@@ -46,23 +46,6 @@
             this.dbOwnerRepository = dbOwnerRepository;
         }
 
-        private static Invoice CreateInvoice(CreateInvoiceViewModel product, string userId, string buyerId, string dataOwnerId)
-        {
-            var invoice = new Invoice()
-            {
-                ApplicationUserId = userId,
-                BuyerId = buyerId,
-                DatabaseОwnerId = dataOwnerId,
-                InvoiceTipe = product.InvoiceTipe,
-                PaymentMethod = product.PaymentMethod,
-                DueDate = DateTime.UtcNow.Date,
-                InvoiceDate = DateTime.UtcNow.Date,
-                TotalInvoiceSum = default,
-            };
-
-            return invoice;
-        }
-
         public async Task<(bool IsValid, string Error)> AddInvoice(CreateInvoiceViewModel product, string userId)
         {
             var isCreate = false;
@@ -251,6 +234,23 @@
             }
 
             return allInvoice;
+        }
+
+        private static Invoice CreateInvoice(CreateInvoiceViewModel product, string userId, string buyerId, string dataOwnerId)
+        {
+            var invoice = new Invoice()
+            {
+                ApplicationUserId = userId,
+                BuyerId = buyerId,
+                DatabaseОwnerId = dataOwnerId,
+                InvoiceTipe = product.InvoiceTipe,
+                PaymentMethod = product.PaymentMethod,
+                DueDate = DateTime.UtcNow.Date,
+                InvoiceDate = DateTime.UtcNow.Date,
+                TotalInvoiceSum = default,
+            };
+
+            return invoice;
         }
     }
 }

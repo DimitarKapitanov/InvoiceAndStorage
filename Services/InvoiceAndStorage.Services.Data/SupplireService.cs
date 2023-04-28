@@ -11,7 +11,7 @@
     using InvoiceAndStorage.Web.ViewModels.Supplier;
     using Microsoft.EntityFrameworkCore;
 
-    public class SupplireService : ISupplierSevice
+    public class SupplireService : ISupplierService
     {
         private readonly ICompanyServise companyServise;
         private readonly IDeletableEntityRepository<DatabaseОwner> dataBaseOwner;
@@ -98,11 +98,6 @@
                 .FirstOrDefaultAsync(x => x.Company.IdentificationNumber == identificationNumber);
 
             return supplier;
-        }
-
-        public object GetSupplierByIdentificationNumber(Func<object, bool> p)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

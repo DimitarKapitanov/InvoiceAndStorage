@@ -5,17 +5,16 @@
     ViewData["Title"] = "Log in";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row offset-sm-4 embed-responsive">
+<div class="row offset-sm-4 left embed-responsive">
     <div class="col-md-4">
         <section>
+            <h1>@ViewData["Title"]</h1>
             <form id="account" method="post">
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Input.UserName"></label>
-                    <input asp-for="Input.UserName" class="form-control" />
+                    <input asp-for="Input.UserName" class="form-control" placeholder="Въведете поребителско име" />
                     <span asp-validation-for="Input.UserName" class="text-danger"></span>
                 </div>
                 <div class="form-group">

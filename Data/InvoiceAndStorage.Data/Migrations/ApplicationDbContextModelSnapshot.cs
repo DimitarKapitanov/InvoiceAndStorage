@@ -333,6 +333,38 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.ToTable("DatabaseОwners");
                 });
 
+            modelBuilder.Entity("InvoiceAndStorage.Data.Models.DatabaseОwnersProducts", b =>
+                {
+                    b.Property<string>("DatabaseОwnerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("DatabaseОwnerId", "ProductId");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("DatabaseОwnersProducts");
+                });
+
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
                     b.Property<int>("Id")
@@ -407,6 +439,9 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("DatabaseОwnerId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
@@ -433,6 +468,8 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BuyerId");
+
+                    b.HasIndex("DatabaseОwnerId");
 
                     b.HasIndex("IsDeleted");
 
@@ -534,6 +571,9 @@ namespace InvoiceAndStorage.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("IdentificationNumber")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -709,6 +749,25 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("InvoiceAndStorage.Data.Models.DatabaseОwnersProducts", b =>
+                {
+                    b.HasOne("InvoiceAndStorage.Data.Models.Product", "Product")
+                        .WithMany("DatabaseОwnersProducts")
+                        .HasForeignKey("DatabaseОwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("InvoiceAndStorage.Data.Models.DatabaseОwner", "DatabaseОwner")
+                        .WithMany("DatabaseОwnersProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("DatabaseОwner");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
                     b.HasOne("InvoiceAndStorage.Data.Models.ApplicationUser", "ApplicationUser")
@@ -741,6 +800,10 @@ namespace InvoiceAndStorage.Data.Migrations
                     b.HasOne("InvoiceAndStorage.Data.Models.Buyer", "Buyer")
                         .WithMany("Product")
                         .HasForeignKey("BuyerId");
+
+                    b.HasOne("InvoiceAndStorage.Data.Models.DatabaseОwner", null)
+                        .WithMany("Products")
+                        .HasForeignKey("DatabaseОwnerId");
 
                     b.HasOne("InvoiceAndStorage.Data.Models.Supplier", "Supplier")
                         .WithMany("Products")
@@ -867,7 +930,11 @@ namespace InvoiceAndStorage.Data.Migrations
 
                     b.Navigation("Buyers");
 
+                    b.Navigation("DatabaseОwnersProducts");
+
                     b.Navigation("Invoices");
+
+                    b.Navigation("Products");
 
                     b.Navigation("Suppliers");
                 });
@@ -875,6 +942,11 @@ namespace InvoiceAndStorage.Data.Migrations
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Invoice", b =>
                 {
                     b.Navigation("SoldProducts");
+                });
+
+            modelBuilder.Entity("InvoiceAndStorage.Data.Models.Product", b =>
+                {
+                    b.Navigation("DatabaseОwnersProducts");
                 });
 
             modelBuilder.Entity("InvoiceAndStorage.Data.Models.Supplier", b =>

@@ -1,0 +1,63 @@
+$primary: #033b85; //dark
+$white: white; //white
+
+@import url("../lib/bootstrap/scss/bootstrap.css");
+
+nav.navbar {
+    background: linear-gradient($primary, $white);
+}
+
+body {
+    background-image: url(../images/body-backgound.jpg);
+    background-size: 100% 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    .main-header {
+        margin: 1rem 0 5rem 0;
+    }
+
+    .homeCards {
+        justify-content: center;
+
+        &.offset-sm-4.left {
+            justify-content: start;
+            margin-left: 0;
+        }
+
+        .card {
+            margin: 1rem;
+            padding: 0;
+            color: black;
+            width: 18rem;
+
+            img {
+                height: 12rem;
+                width: 100%;
+            }
+
+            a {
+                margin: 0.5rem auto;
+            }
+
+            .card-body {
+                padding-bottom: 0.5rem;
+            }
+        }
+    }
+
+    .footer {
+        position: unset;
+        margin-top: auto;
+        color: white;
+
+        a {
+            color: white;
+        }
+    }
+
+    .table_data_text_color {
+        color: white;
+    }
+}

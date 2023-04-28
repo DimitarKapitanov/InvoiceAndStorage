@@ -2,9 +2,8 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class SoldProductsVIewModel
+    public class SoldProductsViewModel
     {
-
         [Display(Name = "Име на продукта")]
         public string ProductName { get; set; }
 

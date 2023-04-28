@@ -4,38 +4,96 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Добре дошли в @GlobalConstants.SystemName!</h1>
+    <h1 class="display-3 main-header">Добре дошли във Фактури и склад!</h1>
     <div class="container">
-        <div class="row">
-            <div class="col-auto p-2" >
-                <a class="btn btn-outline-primary" href="/Buyer/AddBuyers">Създай нов клиент</a>
+        <div class="row homeCards">
+            <div class="card add-client border-secondary">
+                <img src="./images/new_client_card.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Добаване на клиенти</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Добави клиент"</strong> можете бързо и лесно да добавите нов клиент.</p>
+                </div>
+                <a href="/Buyer/AddBuyers" class="btn btn-primary">Добави клиент</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Buyer/All">Всички клиенти</a>
+            <div class="card all-client border-secondary">
+                <img src="./images/all_clients.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Всички клиенти</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Всички клиенти"</strong> можете бързо и лесно да видите всички ваши клиенти.</p>
+                </div>
+                <a href="/Buyer/All" class="btn btn-primary">Всички клиенти</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Supplier/AddSuppliers">Създай нов доставчик</a>
+            <div class="card add-supplier border-secondary">
+                <img src="./images/supplyer.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Създай доставчик</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Създай доставчик"</strong> можете бързо и лесно да добавите нов доставчик.</p>
+                </div>
+                <a href="/Supplier/AddSuppliers" class="btn btn-primary">Създай доставчик</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Supplier/AllSuppliers">Всички доставчици</a>
+            <div class="card all-supplier border-secondary">
+                <img src="./images/all_supplyers.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Всички доставчици</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Всички доставчици"</strong> можете бързо и лесно да видите всички ваши доставчик.</p>
+                </div>
+                <a href="/Supplier/AllSuppliers" class="btn btn-primary">Всички доставчици</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Product/AddProduct">Създай нов продукти</a>
+            <div class="card add-product border-secondary">
+                <img src="./images/add_product.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Добави продукт</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Добави продукт"</strong> можете бързо и лесно да добавите нов продукт.</p>
+                </div>
+                <a href="/Product/AddProduct" class="btn btn-primary">Добави продукти</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Product/AllProducts">Всички продукти</a>
+            <div class="card all-products border-secondary">
+                <img src="./images/all-products.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Всички продукти</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Всички продукти"</strong> можете бързо и лесно да видите всички продукти.</p>
+                </div>
+                <a href="/Product/AllProducts" class="btn btn-primary">Всички продукти</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Product/AddProduct">Нова доставка</a>
+            <div class="card all-products border-secondary">
+                <img src="./images/new-supplie.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Нова доставка</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Нова доставка"</strong> можете бързо и лесно да направите нова доставка.</p>
+                </div>
+                <a href="/Product/AddProduct" class="btn btn-primary">Нова доставка</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="">Оферти</a>
+            <div class="card offer border-secondary">
+                <img src="./images/offers.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Оферти</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Оферти"</strong> можете бързо и лесно да създадете нова оферта.</p>
+                </div>
+                <a href="/Product/AddProduct" class="btn btn-primary">Оферти</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Invoice/CreateInvoice">Създай нова фактура</a>
+            <div class="card invoice border-secondary">
+                <img src="./images/invoice.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Създай фактура</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Създай фактура"</strong> можете бързо и лесно да създадете нова фактура.</p>
+                </div>
+                <a href="/Invoice/CreateInvoice" class="btn btn-primary">Създай фактура</a>
             </div>
-            <div class="col-auto p-2">
-                <a class="btn btn-outline-primary" href="/Invoice/AllInvoice">Издадени фактури</a>
+            <div class="card all-invoice border-secondary">
+                <img src="./images/all_invoice.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Издадени фактури</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Издадени фактури"</strong> можете бързо и лесно да видите всички фактури.</p>
+                </div>
+                <a href="/Invoice/AllInvoice" class="btn btn-primary">Издадени фактури</a>
+            </div>
+            <div class="card all-invoice border-secondary">
+                <img src="./images/inquiry.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Справки</h5>
+                    <p class="card-text">С натискането на бутона <strong>"Справки"</strong> можете бързо и лесно да създадете нова справка.</p>
+                </div>
+                <a href="/Inquiry/Inquiry" class="btn btn-primary">Справки</a>
             </div>
         </div>
     </div>

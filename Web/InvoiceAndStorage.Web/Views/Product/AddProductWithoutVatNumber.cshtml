@@ -12,7 +12,7 @@
 <h1>Добaви продукт</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+  @*  <div class="col-md-4">*@
         <form asp-controller="Product" asp-action="AddProductWithoutVatNumber" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -38,8 +38,63 @@
             <div class="form-group">
                 <input type="submit" value="Създай продукт" class="btn btn-primary" />
             </div>
+            <div class="form-group">
+
+            </div>
         </form>
-    </div>
+       @* <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.CompanyIdentificationNumber
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyOwner)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CountryName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StreetName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StreetNumber)
+                        </td>
+                        <td>
+                            <a asp-controller="Product" asp-action="AddProduct" asp-route-id="@item.CompanyIdentificationNumber">Добвави продукт</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+    @*</div>*@
 </div>
 
 <div>

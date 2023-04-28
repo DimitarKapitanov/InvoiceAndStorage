@@ -42,6 +42,8 @@
 
         public DbSet<Adress> Adresses { get; set; }
 
+        public DbSet<DatabaseОwnersProducts> DatabaseОwnersProducts { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -107,6 +109,19 @@
             .HasOne(a => a.Supplier)
             .WithOne(a => a.Company)
             .HasForeignKey<Supplier>(c => c.CompanyId);
+
+            builder.Entity<DatabaseОwnersProducts>()
+                .HasKey(a => new { a.DatabaseОwnerId, a.ProductId });
+
+            builder.Entity<DatabaseОwnersProducts>()
+                .HasOne<DatabaseОwner>(dbo => dbo.DatabaseОwner)
+                .WithMany(dbop => dbop.DatabaseОwnersProducts)
+                .HasForeignKey(p => p.ProductId);
+
+            builder.Entity<DatabaseОwnersProducts>()
+                .HasOne<Product>(p => p.Product)
+                .WithMany(dbop => dbop.DatabaseОwnersProducts)
+                .HasForeignKey(dbo => dbo.DatabaseОwnerId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

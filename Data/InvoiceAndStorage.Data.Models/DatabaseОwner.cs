@@ -29,5 +29,9 @@
         public virtual ICollection<Supplier> Suppliers { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
+
+        public virtual ICollection<DatabaseОwnersProducts> DatabaseОwnersProducts { get; set; }
     }
 }

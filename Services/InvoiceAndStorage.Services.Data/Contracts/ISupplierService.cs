@@ -7,14 +7,12 @@
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Web.ViewModels.Supplier;
 
-    public interface ISupplierSevice
+    public interface ISupplierService
     {
         Task<bool> CreateSupplire(AddSupplierViewModel addSupplierViewModel, string userId, string dataOwner);
 
         Task<ICollection<SuppliersViewModel>> AllSuppliers(string dbOwnerId);
 
         Task<Supplier> GetSupplierByIdentificationNumber(string identificationNumber, string ownerId);
-
-        object GetSupplierByIdentificationNumber(Func<object, bool> p);
     }
 }

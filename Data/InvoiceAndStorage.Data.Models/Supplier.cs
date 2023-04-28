@@ -26,5 +26,7 @@
         public DatabaseОwner DatabaseОwner { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
+
+        public string IdentificationNumber { get; set; }
     }
 }

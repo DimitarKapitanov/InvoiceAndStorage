@@ -1,13 +1,11 @@
 ﻿namespace InvoiceAndStorage.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     using InvoiceAndStorage.Data.Models;
     using InvoiceAndStorage.Data.Repositories;
     using InvoiceAndStorage.Services.Data.Common;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class SoldProductServiceTest
@@ -55,7 +53,7 @@
 
             var invoice = new Invoice()
             {
-                Id=2,
+                Id = 2,
                 ApplicationUserId = "2",
                 BuyerId = buyer.Id,
                 DatabaseОwnerId = "A1",

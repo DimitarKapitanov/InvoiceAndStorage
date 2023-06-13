@@ -12,6 +12,7 @@ namespace InvoiceAndStorage.Services.Data.Common
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()).Options;
 
             var context = new ApplicationDbContext(option);
+
             if (context != null)
             {
                 context.Database.EnsureDeleted();
